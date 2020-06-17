@@ -1,0 +1,81 @@
+Flock flock;
+boolean showQTree = false;
+ArrayList<Predator> predators = new ArrayList<Predator>();
+
+QuadTree qtree;
+void setup() {
+  size(1000, 720, P2D);
+  //fullScreen(P2D);
+  flock = new Flock(1600);
+
+  predators.add(new Predator());
+  predators.add(new Predator());
+}
+
+void mousePressed() {
+  //predators.add(new Predator(new PVector(mouseX, mouseY)));
+}
+
+void keyPressed() {
+  if (key == '1') {
+    frameRate(1);
+  }
+  if (key == ' ') {
+    frameRate(60);
+  }
+
+  if (key == 'q') {
+    showQTree = !showQTree;
+  }
+}
+
+void draw() {
+  background(10,60,100);
+
+  qtree = new QuadTree(new Rectangle(width/2, height/2, width, height), 6);
+  for (Boid boid : flock.boids) {
+    qtree.insert(new Point(boid.position.x, boid.position.y, boid));
+  }
+
+  if (showQTree) {
+    qtree.show();
+  }
+
+  runPredators();
+  flock.display();
+
+  drawUI();
+}
+
+void runPredators() {
+  for (Predator predator : predators) {
+    predator.wrapAround();
+    predator.update();
+    predator.lookForward();
+    predator.display();
+  }
+}
+
+void stabilizeFrameRate() {
+  if (frameRate < 50) {
+    flock.boids.remove(flock.boids.size()-1);
+  }
+  if (frameRate > 50) {
+    flock.boids.add(new Boid());
+  }
+}
+
+void drawUI() {
+  fill(10);
+  noStroke();
+
+  rectMode(CORNER);
+  rect(0, 0, width, 20);
+  rect(0, height-20, width, 20);
+
+  fill(255);
+  textAlign(RIGHT, CENTER);
+  text((int)frameRate + " fps", width, 10);
+
+  text(flock.boids.size() + " boids", width - 45, 10);
+}
