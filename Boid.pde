@@ -212,7 +212,7 @@ class Boid {
     applyForce(cohesionVector(points).mult(cohesionSlider.getValue()));
 
     applyForce(avoidPredators(predators).mult(fearSlider.getValue()));
-    //applyForce(avoidPosition(new PVector(mouseX, mouseY), 50).mult(3));
+    applyForce(avoidPosition(new PVector(mouseX, mouseY), 50).mult(mouseFearSlider.getValue()));
     
     //applyForce(seekPosition(new PVector(mouseX, mouseY), 250).mult(0.07));
   }

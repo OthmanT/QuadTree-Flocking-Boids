@@ -99,7 +99,7 @@ class QuadTree {
     rectMode(RADIUS);
     noFill();
     strokeWeight(1);
-    stroke(0, 200, 10);
+    stroke(0, 200, 100, 20);
     rect(boundary.x, boundary.y, boundary.w, boundary.h);
 
     if (this.divided) {
@@ -108,11 +108,12 @@ class QuadTree {
       this.southEast.show();
       this.southWest.show();
     }
-
+    /*
     for (Point point : points) {
       fill(255);
       noStroke();
-      //circle(point.x, point.y, 5);
+      circle(point.x, point.y, 5);
     }
+    */
   }
 }

@@ -3,7 +3,7 @@ ArrayList<Predator> predators = new ArrayList<Predator>();
 QuadTree qtree;
 
 void setup() {
-  size(1000, 720, P2D);
+  size(800, 800, P2D);
 
   setupUI();
 
@@ -27,6 +27,8 @@ void draw() {
   flock.display();
 
   drawUI();
+
+  reachDesiredNumberOfBoids();
 }
 
 void runPredators() {
@@ -35,6 +37,16 @@ void runPredators() {
     predator.update();
     predator.lookForward();
     predator.display();
+  }
+}
+
+void reachDesiredNumberOfBoids() {
+  if (flock.boids.size() < int(desiredBoidsTextField.getStringValue())) {
+    flock.boids.add(new Boid());
+  }
+
+  if (flock.boids.size() > int(desiredBoidsTextField.getStringValue())) {
+    flock.boids.remove(flock.boids.size()-1);
   }
 }
 

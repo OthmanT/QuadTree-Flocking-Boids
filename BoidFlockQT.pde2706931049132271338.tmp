@@ -1,36 +1,18 @@
 Flock flock;
-boolean showQTree = false;
 ArrayList<Predator> predators = new ArrayList<Predator>();
-
 QuadTree qtree;
+
 void setup() {
-  size(1000, 720, P2D);
+  size(800, 800, P2D);
+
+  setupUI();
+
   //fullScreen(P2D);
   flock = new Flock(1600);
-
-  predators.add(new Predator());
-  predators.add(new Predator());
-}
-
-void mousePressed() {
-  //predators.add(new Predator(new PVector(mouseX, mouseY)));
-}
-
-void keyPressed() {
-  if (key == '1') {
-    frameRate(1);
-  }
-  if (key == ' ') {
-    frameRate(60);
-  }
-
-  if (key == 'q') {
-    showQTree = !showQTree;
-  }
 }
 
 void draw() {
-  background(10,60,100);
+  background(50);
 
   qtree = new QuadTree(new Rectangle(width/2, height/2, width, height), 6);
   for (Boid boid : flock.boids) {
@@ -45,6 +27,8 @@ void draw() {
   flock.display();
 
   drawUI();
+
+  reachDesiredNumberOfBoids();
 }
 
 void runPredators() {
@@ -56,6 +40,16 @@ void runPredators() {
   }
 }
 
+void reachDesiredNumberOfBoids() {
+  if (flock.boids.size() < int(desiredBoidsTextField.getStringValue())) {
+    flock.boids.add(new Boid());
+  }
+
+  if (flock.boids.size() > int(desiredBoidsTextField.getStringValue())) {
+    flock.boids.remove(flock.boids.size()-1);
+  }
+}
+
 void stabilizeFrameRate() {
   if (frameRate < 50) {
     flock.boids.remove(flock.boids.size()-1);
@@ -63,19 +57,4 @@ void stabilizeFrameRate() {
   if (frameRate > 50) {
     flock.boids.add(new Boid());
   }
-}
-
-void drawUI() {
-  fill(10);
-  noStroke();
-
-  rectMode(CORNER);
-  rect(0, 0, width, 20);
-  rect(0, height-20, width, 20);
-
-  fill(255);
-  textAlign(RIGHT, CENTER);
-  text((int)frameRate + " fps", width, 10);
-
-  text(flock.boids.size() + " boids", width - 45, 10);
 }
