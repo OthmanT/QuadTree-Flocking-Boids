@@ -4,15 +4,14 @@ QuadTree qtree;
 
 void setup() {
   size(800, 600, P2D);
-
   setupUI();
-
-  //fullScreen(P2D);
   flock = new Flock(1600);
 }
 
+
 void draw() {
-  background(backgroundColorPicker.getColorValue());
+  if (backgroundColorPicker != null)
+    background(backgroundColorPicker.getColorValue());
 
   qtree = new QuadTree(new Rectangle(width/2, height/2, width, height), 6);
   for (Boid boid : flock.boids) {
