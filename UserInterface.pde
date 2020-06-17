@@ -62,6 +62,7 @@ void setupUI() {
   desiredBoidsTextField = cp5.addTextfield("desiredBoids")
     .setPosition(width - 90, 2)
     .setSize(40, 16)
+    .setStringValue("1600")
     .setValue("1600")
     .setFocus(false)
     .setColor(color(250))
