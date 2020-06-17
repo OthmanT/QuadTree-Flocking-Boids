@@ -6,10 +6,8 @@ class Boid {
 
   float maxSpeed = random(3,4);
 
-  float separationRadius = random(20, 40);
   float separationMaxForce = 0.1;
 
-  float cohesionRadius = 50;
   float cohesionMaxForce = random(0.01, 0.1);
 
   float alignmentRadius = 50;
@@ -59,7 +57,7 @@ class Boid {
     for (Point point : points) {
       float d = PVector.dist(position, point.boid.position);
 
-      if ((d > 0) && (d < separationRadius/2)) {
+      if ((d > 0) && (d < separationRadiusSlider.getValue()/2)) {
         PVector diff = PVector.sub(position, point.boid.position);
         diff.normalize();
         diff.div(d);
@@ -108,7 +106,7 @@ class Boid {
     int count = 0;
     for (Point point : points) {
       float d = PVector.dist(position, point.boid.position);
-      if ((d > 0) && (d < cohesionRadius/2)) {
+      if ((d > 0) && (d < cohesionRadiusSlider.getValue()/2)) {
         sum.add(point.boid.position);
         count++;
       }
@@ -207,11 +205,11 @@ class Boid {
   }
 
   void flock(ArrayList<Point> points) {
-    applyForce(separationVector(points).mult(separationSlider.getValue()));
-    applyForce(alignmentVector(points).mult(alignmentSlider.getValue()));
-    applyForce(cohesionVector(points).mult(cohesionSlider.getValue()));
+    applyForce(separationVector(points).mult(separationScaleSlider.getValue()));
+    applyForce(alignmentVector(points).mult(alignmentScaleSlider.getValue()));
+    applyForce(cohesionVector(points).mult(cohesionScaleSlider.getValue()));
 
-    applyForce(avoidPredators(predators).mult(fearSlider.getValue()));
+    //applyForce(avoidPredators(predators).mult(fearSlider.getValue()));
     applyForce(avoidPosition(new PVector(mouseX, mouseY), 50).mult(mouseFearSlider.getValue()));
     
     //applyForce(seekPosition(new PVector(mouseX, mouseY), 250).mult(0.07));
@@ -233,7 +231,8 @@ class Boid {
     pushMatrix();
     translate(position.x, position.y);
     if (!this.highlighted) {
-      shape.setFill(c);
+      shape.setFill(boidsFillColorPicker.getColorValue());
+      shape.setStroke(boidsStrokeColorPicker.getColorValue());
     } else {
       shape.setFill(color(230, 20, 20, 255));
     }

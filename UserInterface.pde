@@ -2,9 +2,15 @@ import controlP5.*;
 ControlP5 cp5;
 CheckBox checkbox;
 
-Slider separationSlider;
-Slider cohesionSlider;
-Slider alignmentSlider;
+Slider separationScaleSlider;
+Slider separationRadiusSlider;
+
+Slider cohesionScaleSlider;
+Slider cohesionRadiusSlider;
+
+Slider alignmentScaleSlider;
+Slider alignmentRadiusSlider;
+
 Slider fearSlider;
 Slider mouseFearSlider;
 
@@ -15,18 +21,22 @@ boolean showBackgroundColorPicker = true;
 Button backgroundColorButton;
 
 Button boidsMenuButton;
-boolean showBoidsMenu = false;
-Accordion boidsMenu;
+boolean showSettings = false;
+Accordion settingsMenu;
+
+ColorPicker boidsFillColorPicker;
+ColorPicker boidsStrokeColorPicker;
+
 
 boolean showQTree = false;
 void setupUI() {
   cp5 = new ControlP5(this);
 
-  //setupBoidsMenu();
+  setupBoidsMenu();
   setupBackgroundColorPicker();
 
   checkbox = cp5.addCheckBox("checkBox")
-    .setPosition(5, 5)
+    .setPosition(90, 5)
     .setColorForeground(color(200))
     .setColorBackground(color(150))
     .setColorActive(color(0, 200, 100))
@@ -40,13 +50,13 @@ void setupUI() {
 
   cp5.addButton("Predator+")
     .setValue(0)
-    .setPosition(75, 2)
+    .setPosition(175, 2)
     .setSize(60, 16)
     ;
 
   cp5.addButton("Predator-")
     .setValue(0)
-    .setPosition(140, 2)
+    .setPosition(240, 2)
     .setSize(60, 16)
     ;
 
@@ -65,72 +75,159 @@ void setupUI() {
     ;
   desiredBoidsTextField.getCaptionLabel().align(ControlP5.LEFT, ControlP5.TOP_OUTSIDE);
 
-  float x = 5;
-  separationSlider = cp5.addSlider("Separation s")
-    .setPosition(x, height-15)
-    .setRange(0, 5)
-    ;
 
-  x += separationSlider.getWidth() + 10;
-  cohesionSlider = cp5.addSlider("Cohesion s")
-    .setPosition(x, height-15)
-    .setRange(0, 5)
-    ;
-
-  x += cohesionSlider.getWidth() + 5;
-  alignmentSlider = cp5.addSlider("Alignment s")
-    .setPosition(x, height-15)
-    .setRange(0, 5)
-    ;
-
-  x += alignmentSlider.getWidth() + 5;
-  fearSlider = cp5.addSlider("Fear")
-    .setPosition(x, height-15)
-    .setRange(0, 10)
-    ;
-
-  x += fearSlider.getWidth() + 5;
   mouseFearSlider = cp5.addSlider("Mouse fear s")
-    .setPosition(x, height-15)
+    .setPosition(100, height-15)
     .setRange(-2, 10)
     ;
 
-  separationSlider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.TOP_OUTSIDE);
-  cohesionSlider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.TOP_OUTSIDE);
-  alignmentSlider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.TOP_OUTSIDE);
 
-  fearSlider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.TOP_OUTSIDE);
-  mouseFearSlider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.TOP_OUTSIDE);
-
-  separationSlider.setValue(1);
-  cohesionSlider.setValue(1);
-  alignmentSlider.setValue(1);
-
-  fearSlider.setValue(0);
-  mouseFearSlider.setValue(0);
+  //fearSlider.setValue(0);
+  //mouseFearSlider.setValue(0);
 }
 
 void setupBoidsMenu() {
-  boidsMenuButton =   cp5.addButton("Boids settings")
+  boidsMenuButton =   cp5.addButton("SettingsButton")
+    .setCaptionLabel("Settings")
     .setValue(0)
-    .setPosition(10, 50)
+    .setPosition(5, 2)
     .setSize(60, 16)
     ;
 
-  Group separationGroup = cp5.addGroup("Separation")
+  Group basicGroup = cp5.addGroup("basicGroup")
     .setBackgroundColor(color(0, 64))
-    .setBackgroundHeight(150)
+    .setHeight(15)
+    .setBackgroundHeight(200) 
     ;
+
+
+  //////
+  cp5.addTextlabel("FillColorLabel")
+    .setText("Fill color")
+    .setPosition(2, 4)
+    .setColorValue(255)
+    .moveTo(basicGroup)
+    ;
+
+  boidsFillColorPicker = cp5.addColorPicker("Boids fill color", 0, 20, 150, 12)
+    .moveTo(basicGroup)
+    .setValue(color(255))
+    ;
+
+  cp5.addTextlabel("StrokeColorLabel")
+    .setText("Stroke color")
+    .setPosition(2, 84)
+    .setColorValue(255)
+    .moveTo(basicGroup)
+    ;
+
+  boidsStrokeColorPicker = cp5.addColorPicker("Boids stroke color", 0, 100, 150, 12)
+    .moveTo(basicGroup)
+    .setValue(color(255))
+    ;
+
+  //////
+  Group separationGroup = cp5.addGroup("SeparationGroup")
+    .setBackgroundColor(color(0, 64))
+    .setHeight(15)
+    .setBackgroundHeight(10) 
+    ;
+
+  separationGroup.setBackgroundHeight (300);
+  separationScaleSlider = cp5.addSlider("SeparationScale")
+    .setPosition(4, 10)
+    .setWidth(144)
+    .setRange(0, 10)
+    .moveTo(separationGroup)
+    ;
+
+  separationScaleSlider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.CENTER);
+  separationScaleSlider.getValueLabel().align(ControlP5.RIGHT, ControlP5.CENTER);
+
+  separationRadiusSlider = cp5.addSlider("SeparationRadius")
+    .setPosition(4, 25)
+    .setWidth(144)
+    .setRange(0, 100)
+    .moveTo(separationGroup)
+    ;
+
+  separationRadiusSlider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.CENTER);
+  separationRadiusSlider.getValueLabel().align(ControlP5.RIGHT, ControlP5.CENTER);
+  /////
+  Group cohesionGroup = cp5.addGroup("CohesionGroup")
+    .setBackgroundColor(color(0, 64))
+    .setHeight(15)
+    .setBackgroundHeight(10) 
+    ;
+
+  cohesionScaleSlider = cp5.addSlider("CohesionScale")
+    .setPosition(4, 10)
+    .setWidth(144)
+    .setRange(0, 10)
+    .moveTo(cohesionGroup)
+    ;
+
+  cohesionScaleSlider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.CENTER);
+  cohesionScaleSlider.getValueLabel().align(ControlP5.RIGHT, ControlP5.CENTER);
+
+  cohesionRadiusSlider = cp5.addSlider("CohesionRadius")
+    .setPosition(4, 25)
+    .setWidth(144)
+    .setRange(0, 100)
+    .moveTo(cohesionGroup)
+    ;
+
+  cohesionRadiusSlider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.CENTER);
+  cohesionRadiusSlider.getValueLabel().align(ControlP5.RIGHT, ControlP5.CENTER);
+  ////
+  Group alignmentGroup = cp5.addGroup("AlignmentGroup")
+    .setBackgroundColor(color(0, 64))
+    .setHeight(15)
+    .setBackgroundHeight(10) 
+    ;
+
+  alignmentScaleSlider = cp5.addSlider("AlignmentScale")
+    .setPosition(4, 10)
+    .setWidth(144)
+    .setRange(0, 10)
+    .moveTo(alignmentGroup)
+    ;
+
+  alignmentScaleSlider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.CENTER);
+  alignmentScaleSlider.getValueLabel().align(ControlP5.RIGHT, ControlP5.CENTER);
+
+  alignmentRadiusSlider = cp5.addSlider("AlignmentRadius")
+    .setPosition(4, 25)
+    .setWidth(144)
+    .setRange(0, 100)
+    .moveTo(alignmentGroup)
+    ;
+
+  alignmentRadiusSlider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.CENTER);
+  alignmentRadiusSlider.getValueLabel().align(ControlP5.RIGHT, ControlP5.CENTER);
+  ////
+
+  separationScaleSlider.setValue(1);
+  separationRadiusSlider.setValue(5);
+  cohesionRadiusSlider.setValue(20);
+  cohesionScaleSlider.setValue(1);
+  alignmentRadiusSlider.setValue(20);
+  alignmentScaleSlider.setValue(1);
 
   //The menu
-  boidsMenu = cp5.addAccordion("Boids")
-    .setPosition(100, 100)
-    .setWidth(300)
+  settingsMenu = cp5.addAccordion("Boids")
+    .setPosition(5, 22)
+    .setWidth(150)
+
+    .addItem(basicGroup)
     .addItem(separationGroup)
+    .addItem(cohesionGroup)
+    .addItem(alignmentGroup)
     ;
 
-  boidsMenu.open(0);
-  boidsMenu.setCollapseMode(Accordion.MULTI);
+  //boidsMenu.open(0, 1);
+  settingsMenu.setCollapseMode(Accordion.MULTI);
+  settingsMenu.setVisible(showSettings);
 }
 
 void setupBackgroundColorPicker() {
@@ -150,6 +247,12 @@ void setupBackgroundColorPicker() {
 }
 
 void controlEvent(ControlEvent theEvent) {
+  if (theEvent.isFrom("SettingsButton")) {
+    if (settingsMenu != null) {
+      showSettings = !showSettings;
+      settingsMenu.setVisible(showSettings);
+    }
+  }
 
   if (theEvent.isFrom("backgroundColorPicker")) {
     if (backgroundColorButton != null)
