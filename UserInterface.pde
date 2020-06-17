@@ -10,9 +10,22 @@ Slider mouseFearSlider;
 
 Textfield desiredBoidsTextField;
 
+ColorPicker backgroundColorPicker;
+boolean showBackgroundColorPicker = true;
+Button backgroundColorButton;
+
+Accordion accordion;
+
 boolean showQTree = false;
 void setupUI() {
   cp5 = new ControlP5(this);
+
+  backgroundColorPicker = cp5.addColorPicker("picker")
+    .setPosition(width - 400, 25)
+    .setColorValue(color(50))
+    ;
+
+  backgroundColorPicker.setVisible(showBackgroundColorPicker);
 
   checkbox = cp5.addCheckBox("checkBox")
     .setPosition(5, 5)
@@ -36,6 +49,13 @@ void setupUI() {
   cp5.addButton("Predator-")
     .setValue(0)
     .setPosition(140, 2)
+    .setSize(60, 16)
+    ;
+
+  backgroundColorButton = cp5.addButton("BG Color")
+    .setValue(0)
+    .setPosition(width - 300, 2)
+    .setColorBackground(backgroundColorPicker.getColorValue())
     .setSize(60, 16)
     ;
 
@@ -97,6 +117,13 @@ void setupUI() {
 }
 
 void controlEvent(ControlEvent theEvent) {
+
+  if (theEvent.isFrom("BG Color")) {
+    showBackgroundColorPicker = !showBackgroundColorPicker;
+    backgroundColorPicker.setVisible(showBackgroundColorPicker);
+    backgroundColorButton.setColorBackground(backgroundColorPicker.getColorValue());
+  }
+
   if (theEvent.isFrom("Predator+")) {
     predators.add(new Predator());
   }

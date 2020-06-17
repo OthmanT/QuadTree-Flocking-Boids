@@ -3,16 +3,16 @@ ArrayList<Predator> predators = new ArrayList<Predator>();
 QuadTree qtree;
 
 void setup() {
-  //size(800, 800, P2D);
+  size(800, 600, P2D);
 
   setupUI();
 
-  fullScreen(P2D);
+  //fullScreen(P2D);
   flock = new Flock(1600);
 }
 
 void draw() {
-  background(50);
+  background(backgroundColorPicker.getColorValue());
 
   qtree = new QuadTree(new Rectangle(width/2, height/2, width, height), 6);
   for (Boid boid : flock.boids) {
