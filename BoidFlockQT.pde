@@ -3,7 +3,8 @@ ArrayList<Predator> predators = new ArrayList<Predator>();
 QuadTree qtree;
 
 void setup() {
-  size(800, 600, P2D);
+  size(1000, 800, P2D);
+  //fullScreen(P2D);
   setupUI();
   flock = new Flock(1600);
 }

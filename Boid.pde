@@ -11,10 +11,10 @@ class Boid {
   boolean highlighted = false;
 
   Boid() {
-    setupShape();
+    setupShape(0.5);
   }
 
-  void setupShape() {
+  void setupShape(float scale) {
     shape = createShape();
     shape.beginShape();
     shape.vertex(-10, 10);
@@ -22,7 +22,8 @@ class Boid {
     shape.vertex(10, 10);
     shape.vertex(0, -20);
     shape.endShape(CLOSE);
-    shape.scale(0.5);
+    shape.scale(scale);
+    angle = 0;
   }
 
   void wrapAround() {
@@ -221,10 +222,14 @@ class Boid {
     this.highlighted = h;
   }
 
+  void changeScale(float scale) {
+    setupShape(scale);
+  }
+
   void display() {
     pushMatrix();
     translate(position.x, position.y);
-
+    shape.scale(1);
     if (boidApparenceRadioButton.getArrayValue()[0] == 1) {//Arrow
       if (!this.highlighted) {
         shape.setFill(boidsFillColorPicker.getColorValue());
@@ -236,7 +241,8 @@ class Boid {
     } else {//Circle
       fill(boidsFillColorPicker.getColorValue());
       stroke(boidsStrokeColorPicker.getColorValue());
-      circle(0, 0, 10);
+      if (boidsSizeSlider != null)
+        circle(0, 0, boidsSizeSlider.getValue()*20);
     }
 
     popMatrix();

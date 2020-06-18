@@ -23,6 +23,7 @@ Button settingsMenuButton;
 boolean showSettings = false;
 Accordion settingsMenu;
 
+Slider boidsSizeSlider;
 ColorPicker boidsFillColorPicker;
 ColorPicker boidsStrokeColorPicker;
 RadioButton boidApparenceRadioButton;
@@ -77,7 +78,7 @@ void setupSettingsMenu() {
     .setLabel("Boids appearance")
     .setBackgroundColor(color(0, 64))
     .setHeight(15)
-    .setBackgroundHeight(200) 
+    .setBackgroundHeight(230) 
     ;
 
 
@@ -104,6 +105,19 @@ void setupSettingsMenu() {
     .activate(0)
     .moveTo(basicGroup)
     ;
+
+  basicGroupY +=20;
+  boidsSizeSlider = cp5.addSlider("boidsSizeSlider")
+    .setLabel("Scale")
+    .setPosition(4, basicGroupY)
+    .setWidth(144)
+    .setRange(0, 1)
+    .setValue(0.5)
+    .moveTo(basicGroup)
+    ;
+
+  boidsSizeSlider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.CENTER);
+  boidsSizeSlider.getValueLabel().align(ControlP5.RIGHT, ControlP5.CENTER);
 
 
   basicGroupY += 20;
@@ -530,6 +544,14 @@ void controlEvent(ControlEvent theEvent) {
 
   if (theEvent.isFrom("desiredBoids")) {
     println(desiredBoidsTextField.getStringValue());
+  }
+
+  if (theEvent.isFrom("boidsSizeSlider")) {
+    if (boidsSizeSlider != null) {
+      for (Boid boid : flock.boids) {
+        boid.changeScale(boidsSizeSlider.getValue());
+      }
+    }
   }
 }
 
