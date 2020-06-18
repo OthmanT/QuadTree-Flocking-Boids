@@ -2,6 +2,8 @@ import controlP5.*;
 ControlP5 cp5;
 CheckBox checkbox;
 
+Slider maxSpeedSlider;
+
 Slider separationScaleSlider;
 Slider separationRadiusSlider;
 Slider separationMaxForceSlider; 
@@ -30,6 +32,7 @@ Accordion settingsMenu;
 ColorPicker boidsFillColorPicker;
 ColorPicker boidsStrokeColorPicker;
 
+RadioButton boidApparenceRadioButton;
 
 boolean showQTree = false;
 void setupUI() {
@@ -105,38 +108,92 @@ void setupBoidsMenu() {
 
 
   //////
+  float basicGroupY = 4;
+  cp5.addTextlabel("boidApparenceLabel")
+    .setText("Apparence")
+    .setPosition(2, basicGroupY)
+    .setColorValue(255)
+    .moveTo(basicGroup)
+    ;
+
+  basicGroupY += 15;
+  boidApparenceRadioButton = cp5.addRadioButton("radioButton")
+    .setPosition(20, basicGroupY)
+    .setSize(10, 10)
+    .setColorForeground(color(120))
+    .setColorActive(color(255))
+    .setColorLabel(color(255))
+    .setItemsPerRow(2)
+    .setSpacingColumn(40)
+    .addItem("Arrow", 1)
+    .addItem("Circle", 2)
+    .activate(0)
+    .moveTo(basicGroup)
+    ;
+   
+
+  basicGroupY += 20;
   cp5.addTextlabel("FillColorLabel")
     .setText("Fill color")
-    .setPosition(2, 4)
+    .setPosition(2, basicGroupY)
     .setColorValue(255)
     .moveTo(basicGroup)
     ;
 
-  boidsFillColorPicker = cp5.addColorPicker("Boids fill color", 0, 20, 150, 12)
+  basicGroupY += 15;
+  boidsFillColorPicker = cp5.addColorPicker("Boids fill color", 0, (int)basicGroupY, 150, 12)
     .moveTo(basicGroup)
     .setValue(color(255))
     ;
 
+  basicGroupY +=70;
   cp5.addTextlabel("StrokeColorLabel")
     .setText("Stroke color")
-    .setPosition(2, 84)
+    .setPosition(2, basicGroupY)
     .setColorValue(255)
     .moveTo(basicGroup)
     ;
 
-  boidsStrokeColorPicker = cp5.addColorPicker("Boids stroke color", 0, 100, 150, 12)
+  basicGroupY += 15;
+  boidsStrokeColorPicker = cp5.addColorPicker("Boids stroke color", 0, (int)basicGroupY, 150, 12)
     .moveTo(basicGroup)
     .setValue(color(255))
     ;
 
+  ///////
+  /*
+  FLOCKING GROUP
+   */
   //////
+
   Group flockingGroup = cp5.addGroup("FlockingGroup")
     .setBackgroundColor(color(0, 64))
     .setHeight(15)
     .setBackgroundHeight(10) 
     ;
+  flockingGroup.setBackgroundHeight (300);
 
   float y = 15;
+  cp5.addTextlabel("SpeedLabel")
+    .setText("Speed")
+    .setPosition(2, y)
+    .setColorValue(255)
+    .moveTo(flockingGroup)
+    ;
+
+  y +=15;
+  maxSpeedSlider = cp5.addSlider("MaxSpeed")
+    .setPosition(4, y)
+    .setWidth(144)
+    .setRange(0, 6)
+    .moveTo(flockingGroup)
+    ;
+
+  maxSpeedSlider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.CENTER);
+  maxSpeedSlider.getValueLabel().align(ControlP5.RIGHT, ControlP5.CENTER);
+
+  ////
+  y += 25;
   cp5.addTextlabel("SeparationLabel")
     .setText("Separation")
     .setPosition(2, y)
@@ -145,7 +202,6 @@ void setupBoidsMenu() {
     ;
 
   y += 15;
-  flockingGroup.setBackgroundHeight (300);
   separationScaleSlider = cp5.addSlider("SeparationScale")
     .setPosition(4, y)
     .setWidth(144)
@@ -272,6 +328,7 @@ void setupBoidsMenu() {
   separationMaxForceSlider.setValue(0.1);
   cohesionMaxForceSlider.setValue(0.1);
   alignmentMaxForceSlider.setValue(0.1);
+  maxSpeedSlider.setValue(2);
 
   //The menu
   settingsMenu = cp5.addAccordion("Boids")

@@ -4,11 +4,9 @@ class Boid {
   PVector acceleration = new PVector();
   PVector velocity = new PVector(random(-3, 3), random(-3, 3));
 
-  float maxSpeed = random(3,4);
-
   PShape shape;
   float angle = 0;
-  color c = color(random(100, 125), random(100, 150), random(100, 200));
+  color c;
 
   boolean highlighted = false;
 
@@ -66,7 +64,7 @@ class Boid {
 
     if (steer.mag() > 0) {
       // Implement Reynolds: Steering = Desired - Velocity
-      steer.setMag(maxSpeed);
+      steer.setMag(maxSpeedSlider.getValue());
       steer.sub(velocity);
       steer.limit(separationMaxForceSlider.getValue());
     }
@@ -85,7 +83,7 @@ class Boid {
     }
     if (count > 0) {
       sum.div((float)count);
-      sum.setMag(maxSpeed);
+      sum.setMag(maxSpeedSlider.getValue());
       PVector steer = PVector.sub(sum, velocity);
       steer.limit(alignmentMaxForceSlider.getValue());
       return steer;
@@ -189,7 +187,7 @@ class Boid {
 
   PVector seek(PVector target, float maxForce) {
     PVector desired = PVector.sub(target, position);  // A vector pointing from the position to the target
-    desired.setMag(maxSpeed);
+    desired.setMag(maxSpeedSlider.getValue());
 
     // Steering = Desired minus Velocity
     PVector steer = PVector.sub(desired, velocity);
@@ -204,13 +202,13 @@ class Boid {
 
     //applyForce(avoidPredators(predators).mult(fearSlider.getValue()));
     applyForce(avoidPosition(new PVector(mouseX, mouseY), 50).mult(mouseFearSlider.getValue()));
-    
+
     //applyForce(seekPosition(new PVector(mouseX, mouseY), 250).mult(0.07));
   }
 
   void update() {
     velocity.add(acceleration);
-    velocity.limit(maxSpeed);
+    velocity.limit(maxSpeedSlider.getValue());
     position.add(velocity);
 
     acceleration.mult(0);
@@ -223,14 +221,22 @@ class Boid {
   void display() {
     pushMatrix();
     translate(position.x, position.y);
-    if (!this.highlighted) {
-      shape.setFill(boidsFillColorPicker.getColorValue());
-      shape.setStroke(boidsStrokeColorPicker.getColorValue());
-    } else {
-      shape.setFill(color(230, 20, 20, 255));
+
+    if (boidApparenceRadioButton.getArrayValue()[0] == 1) {//Arrow
+      if (!this.highlighted) {
+        shape.setFill(boidsFillColorPicker.getColorValue());
+        shape.setStroke(boidsStrokeColorPicker.getColorValue());
+      } else {
+        shape.setFill(color(230, 20, 20, 255));
+      }
+      shape(shape, 0, 0);
+      
+    } else {//Circle
+      fill(boidsFillColorPicker.getColorValue());
+      stroke(boidsStrokeColorPicker.getColorValue());
+      circle(0, 0, 10);
     }
 
-    shape(shape, 0, 0);   
     popMatrix();
 
     this.highlighted = false;

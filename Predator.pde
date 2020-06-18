@@ -1,5 +1,5 @@
 class Predator extends Boid {
-
+  float maxSpeed = 2;
   Predator() {
     super();
     maxSpeed = 2;
