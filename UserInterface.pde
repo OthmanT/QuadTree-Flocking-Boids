@@ -74,6 +74,7 @@ void setupSettingsMenu() {
     ;
 
   Group basicGroup = cp5.addGroup("basicGroup")
+    .setLabel("Boids appearance")
     .setBackgroundColor(color(0, 64))
     .setHeight(15)
     .setBackgroundHeight(200) 
@@ -140,6 +141,7 @@ void setupSettingsMenu() {
   //////
 
   Group flockingGroup = cp5.addGroup("FlockingGroup")
+    .setLabel("Flocking behavior")
     .setBackgroundColor(color(0, 64))
     .setHeight(15)
     .setBackgroundHeight(10) 
@@ -309,6 +311,7 @@ void setupSettingsMenu() {
    */
   //////
   Group mouseGroup = cp5.addGroup("mouseGroup")
+    .setLabel("Mouse settings & behavior")
     .setBackgroundColor(color(0, 64))
     .setHeight(15)
     .setBackgroundHeight(270) 
@@ -417,6 +420,7 @@ void setupSettingsMenu() {
    */
   //////
   Group quadTreeGroup = cp5.addGroup("quadTreeGroup")
+    .setLabel("QuadTree")
     .setBackgroundColor(color(0, 64))
     .setHeight(15)
     .setBackgroundHeight(125) 
@@ -486,7 +490,7 @@ void setupSettingsMenu() {
 
 void setupBackgroundColorPicker() {
   backgroundColorPicker = cp5.addColorPicker("backgroundColorPicker")
-    .setPosition(width - 400, 25)
+    .setPosition(width - 350, 25)
     .setColorValue(color(50))
     ;
 
@@ -494,7 +498,7 @@ void setupBackgroundColorPicker() {
 
   backgroundColorButton = cp5.addButton("BG Color")
     .setValue(0)
-    .setPosition(width - 300, 2)
+    .setPosition(width - 250, 2)
     .setColorBackground(backgroundColorPicker.getColorValue())
     .setSize(60, 16)
     ;
