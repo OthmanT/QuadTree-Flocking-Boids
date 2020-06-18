@@ -34,6 +34,12 @@ ColorPicker boidsStrokeColorPicker;
 
 RadioButton boidApparenceRadioButton;
 
+RadioButton mouseBehaviorRadioButton;
+CheckBox showMouseCursorCheckBox;
+CheckBox showMouseRadiusCheckBox;
+Slider mouseRadiusSlider;
+Slider mouseForceSlider;
+
 boolean showQTree = false;
 void setupUI() {
   cp5 = new ControlP5(this);
@@ -130,7 +136,7 @@ void setupBoidsMenu() {
     .activate(0)
     .moveTo(basicGroup)
     ;
-   
+
 
   basicGroupY += 20;
   cp5.addTextlabel("FillColorLabel")
@@ -319,8 +325,8 @@ void setupBoidsMenu() {
   alignmentMaxForceSlider.getValueLabel().align(ControlP5.RIGHT, ControlP5.CENTER);
   ////
 
-  separationScaleSlider.setValue(1);
-  separationRadiusSlider.setValue(5);
+  separationScaleSlider.setValue(2);
+  separationRadiusSlider.setValue(20);
   cohesionRadiusSlider.setValue(20);
   cohesionScaleSlider.setValue(1);
   alignmentRadiusSlider.setValue(20);
@@ -330,13 +336,101 @@ void setupBoidsMenu() {
   alignmentMaxForceSlider.setValue(0.1);
   maxSpeedSlider.setValue(2);
 
+  /////
+  /*
+   Mouse Group
+   */
+  //////
+  Group mouseGroup = cp5.addGroup("mouseGroup")
+    .setBackgroundColor(color(0, 64))
+    .setHeight(15)
+    .setBackgroundHeight(200) 
+    ;
+
+  float mouseGroupY = 4;
+  cp5.addTextlabel("MouseBehaviorLabel")
+    .setText("Behavior")
+    .setPosition(2, mouseGroupY)
+    .setColorValue(255)
+    .moveTo(mouseGroup)
+    ;
+
+  mouseGroupY += 15;
+  mouseBehaviorRadioButton = cp5.addRadioButton("mouseBehaviorRadioButton")
+    .setPosition(4, mouseGroupY)
+    .setSize(10, 10)
+    .setColorForeground(color(120))
+    .setColorActive(color(255))
+    .setColorLabel(color(255))
+    .setItemsPerRow(2)
+    .setSpacingColumn(55)
+    .addItem("Attraction", 1)
+    .addItem("Repulsion", 2)
+    .activate(1)
+    .moveTo(mouseGroup)
+    ;
+
+  mouseGroupY +=15;
+  mouseForceSlider = cp5.addSlider("mouseBehaviorMaxForceSlider")
+    .setPosition(4, mouseGroupY)
+    .setLabel("Force")
+    .setWidth(144)
+    .setRange(0, 10)
+    .moveTo(mouseGroup)
+    ;
+  mouseForceSlider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.CENTER);
+  mouseForceSlider.getValueLabel().align(ControlP5.RIGHT, ControlP5.CENTER);
+
+  mouseGroupY +=20;
+  showMouseCursorCheckBox = cp5.addCheckBox("showMouseCursorCheckBox")
+    .setPosition(4, mouseGroupY)
+    .setColorActive(color(255))
+    .setColorLabel(color(255))
+    .setSize(10, 10)
+    .setSpacingRow(20)
+    .addItem("Show cursor (c)", 0)
+    .activate(0)
+    .moveTo(mouseGroup)
+    ;
+
+  mouseGroupY +=20;
+  showMouseRadiusCheckBox = cp5.addCheckBox("showMouseRadiusCheckBox")
+    .setPosition(4, mouseGroupY)
+    .setColorActive(color(255))
+    .setColorLabel(color(255))
+    .setSize(10, 10)
+    .setSpacingRow(20)
+    .addItem("Show radius", 0)
+    .moveTo(mouseGroup)
+    ;
+
+  mouseGroupY +=15;
+  mouseRadiusSlider = cp5.addSlider("mouseRadiusSlider")
+    .setPosition(4, mouseGroupY)
+    .setLabel("Radius")
+    .setWidth(144)
+    .setRange(0, width/2)
+    .setValue(100)
+    .moveTo(mouseGroup)
+    ;
+  mouseRadiusSlider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.CENTER);
+  mouseRadiusSlider.getValueLabel().align(ControlP5.RIGHT, ControlP5.CENTER);
+  /*
+RadioButton mouseBehaviorRadioButton;
+   CheckBox showMouseCursorCheckBox;
+   CheckBox showMouseRadiusCheckBox;
+   Slider mouseRadiusSlider;
+   Slider mouseForceSlider;
+   */
+
   //The menu
-  settingsMenu = cp5.addAccordion("Boids")
+  settingsMenu = cp5.addAccordion("Settings")
     .setPosition(5, 22)
     .setWidth(150)
 
     .addItem(basicGroup)
     .addItem(flockingGroup)
+    .addItem(mouseGroup)
     ;
 
   //boidsMenu.open(0, 1);

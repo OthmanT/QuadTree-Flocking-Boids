@@ -201,7 +201,12 @@ class Boid {
     applyForce(cohesionVector(points).mult(cohesionScaleSlider.getValue()));
 
     //applyForce(avoidPredators(predators).mult(fearSlider.getValue()));
-    applyForce(avoidPosition(new PVector(mouseX, mouseY), 50).mult(mouseFearSlider.getValue()));
+    int behavior = mouseBehaviorRadioButton.getArrayValue()[0] == 0 ? 1 : -1;
+    applyForce(avoidPosition(new PVector(mouseX, mouseY), 
+      mouseRadiusSlider.getValue()/2)
+      .mult(mouseForceSlider.getValue())
+      .mult(behavior)
+      );
 
     //applyForce(seekPosition(new PVector(mouseX, mouseY), 250).mult(0.07));
   }
@@ -230,7 +235,6 @@ class Boid {
         shape.setFill(color(230, 20, 20, 255));
       }
       shape(shape, 0, 0);
-      
     } else {//Circle
       fill(boidsFillColorPicker.getColorValue());
       stroke(boidsStrokeColorPicker.getColorValue());

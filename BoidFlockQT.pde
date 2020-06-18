@@ -8,10 +8,30 @@ void setup() {
   flock = new Flock(1600);
 }
 
+void keyPressed() {
+  if (str(key).toLowerCase().equals("c")) {
+    showMouseCursorCheckBox.toggle(0);
+  }
+}
+
 
 void draw() {
   if (backgroundColorPicker != null)
     background(backgroundColorPicker.getColorValue());
+    
+  if (showMouseCursorCheckBox.getArrayValue()[0] == 1) {
+    cursor();
+  } else {
+    noCursor();
+  }
+  
+  if (showMouseRadiusCheckBox.getArrayValue()[0] == 1) {
+    noFill();
+    stroke(255, 0, 0);
+    circle(mouseX, mouseY, mouseRadiusSlider.getValue());
+  }
+
+
 
   qtree = new QuadTree(new Rectangle(width/2, height/2, width, height), 6);
   for (Boid boid : flock.boids) {
