@@ -16,9 +16,6 @@ Slider alignmentScaleSlider;
 Slider alignmentRadiusSlider;
 Slider alignmentMaxForceSlider;
 
-Slider fearSlider;
-Slider mouseFearSlider;
-
 Textfield desiredBoidsTextField;
 
 ColorPicker backgroundColorPicker;
@@ -89,15 +86,6 @@ void setupUI() {
     ;
   desiredBoidsTextField.getCaptionLabel().align(ControlP5.LEFT, ControlP5.TOP_OUTSIDE);
 
-
-  mouseFearSlider = cp5.addSlider("Mouse fear s")
-    .setPosition(100, height-15)
-    .setRange(-2, 10)
-    ;
-
-
-  //fearSlider.setValue(0);
-  //mouseFearSlider.setValue(0);
 }
 
 void setupBoidsMenu() {
@@ -522,7 +510,7 @@ void drawUI() {
 
   rectMode(CORNER);
   rect(0, 0, width, 20);
-  rect(0, height-30, width, 30);
+  //rect(0, height-30, width, 30);//Bottom bar
 
   fill(255);
   textAlign(RIGHT, CENTER);
