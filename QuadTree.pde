@@ -99,7 +99,7 @@ class QuadTree {
     rectMode(RADIUS);
     noFill();
     strokeWeight(1);
-    stroke(0, 200, 100, 20);
+    stroke(quadTreeLinesColorPicker.getColorValue());
     rect(boundary.x, boundary.y, boundary.w, boundary.h);
 
     if (this.divided) {

@@ -9,7 +9,12 @@ class Flock{
   
   void display(){
     for(Boid boid : boids){
-      ArrayList<Point> query = qtree.query(new Rectangle(boid.position.x, boid.position.y, 30,30), null);
+      
+      ArrayList<Point> query = qtree.query(new Rectangle(boid.position.x, boid.position.y,
+        quadTreeBoidsPerceptionRadiuslider.getValue(),
+        quadTreeBoidsPerceptionRadiuslider.getValue()),
+        null);
+        
       boid.flock(query);
       boid.wrapAround();
       boid.update();

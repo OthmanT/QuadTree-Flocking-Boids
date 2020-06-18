@@ -1,17 +1,14 @@
 import controlP5.*;
 ControlP5 cp5;
-CheckBox checkbox;
+
 
 Slider maxSpeedSlider;
-
 Slider separationScaleSlider;
 Slider separationRadiusSlider;
 Slider separationMaxForceSlider; 
-
 Slider cohesionScaleSlider;
 Slider cohesionRadiusSlider;
 Slider cohesionMaxForceSlider;
-
 Slider alignmentScaleSlider;
 Slider alignmentRadiusSlider;
 Slider alignmentMaxForceSlider;
@@ -22,13 +19,12 @@ ColorPicker backgroundColorPicker;
 boolean showBackgroundColorPicker = true;
 Button backgroundColorButton;
 
-Button boidsMenuButton;
+Button settingsMenuButton;
 boolean showSettings = false;
 Accordion settingsMenu;
 
 ColorPicker boidsFillColorPicker;
 ColorPicker boidsStrokeColorPicker;
-
 RadioButton boidApparenceRadioButton;
 
 RadioButton mouseBehaviorRadioButton;
@@ -39,39 +35,20 @@ Slider mouseForceSlider;
 ColorPicker mouseFillColorPicker;
 ColorPicker mouseStrokeColorPicker;
 
-boolean showQTree = false;
+CheckBox showQuadTreeCheckBox;
+Slider quadTreeBoidPerSquareLimitSlider;
+ColorPicker quadTreeLinesColorPicker;
+Slider quadTreeBoidsPerceptionRadiuslider;
+
 void setupUI() {
   cp5 = new ControlP5(this);
 
-  setupBoidsMenu();
+  setupSettingsMenu();
   setupBackgroundColorPicker();
+  setupBarUI();
+}
 
-  checkbox = cp5.addCheckBox("checkBox")
-    .setPosition(90, 5)
-    .setColorForeground(color(200))
-    .setColorBackground(color(150))
-    .setColorActive(color(0, 200, 100))
-    .setColorLabel(color(255))
-    .setSize(10, 10)
-    .setItemsPerRow(3)
-    .setSpacingColumn(5)
-    .setSpacingRow(20)
-    .addItem("Show tree", 0)
-    ;
-
-  cp5.addButton("Predator+")
-    .setValue(0)
-    .setPosition(175, 2)
-    .setSize(60, 16)
-    ;
-
-  cp5.addButton("Predator-")
-    .setValue(0)
-    .setPosition(240, 2)
-    .setSize(60, 16)
-    ;
-
-
+void setupBarUI() {
 
   desiredBoidsTextField = cp5.addTextfield("desiredBoids")
     .setPosition(width - 90, 2)
@@ -84,12 +61,12 @@ void setupUI() {
     .setColorBackground(color(50))
     .setAutoClear(false)
     ;
-  desiredBoidsTextField.getCaptionLabel().align(ControlP5.LEFT, ControlP5.TOP_OUTSIDE);
 
+  desiredBoidsTextField.getCaptionLabel().align(ControlP5.LEFT, ControlP5.TOP_OUTSIDE);
 }
 
-void setupBoidsMenu() {
-  boidsMenuButton =   cp5.addButton("SettingsButton")
+void setupSettingsMenu() {
+  settingsMenuButton =   cp5.addButton("SettingsButton")
     .setCaptionLabel("Settings")
     .setValue(0)
     .setPosition(5, 2)
@@ -417,7 +394,7 @@ void setupBoidsMenu() {
   mouseGroupY += 15;
   mouseFillColorPicker = cp5.addColorPicker("mouseFillColorPicker", 0, (int)mouseGroupY, 150, 12)
     .moveTo(mouseGroup)
-    .setColorValue(color(255,255,255,0))
+    .setColorValue(color(255, 255, 255, 0))
     ;
 
   mouseGroupY += 70;
@@ -431,10 +408,67 @@ void setupBoidsMenu() {
   mouseGroupY += 15;
   mouseStrokeColorPicker = cp5.addColorPicker("mouseStrokeColorPicker", 0, (int)mouseGroupY, 150, 12)
     .moveTo(mouseGroup)
-    .setColorValue(color(255,0,0))
+    .setColorValue(color(255, 0, 0))
     ;
 
-  //The menu
+  //////
+  /*
+   QuadTree Menu
+   */
+  //////
+  Group quadTreeGroup = cp5.addGroup("quadTreeGroup")
+    .setBackgroundColor(color(0, 64))
+    .setHeight(15)
+    .setBackgroundHeight(125) 
+    ;
+
+  float quadTreeGroupY = 4;      
+  showQuadTreeCheckBox = cp5.addCheckBox("checkBox")
+    .setPosition(4, quadTreeGroupY)
+    .setColorForeground(color(200))
+    .setColorBackground(color(150))
+    .setColorLabel(color(255))
+    .setSize(10, 10)
+    .setItemsPerRow(3)
+    .setSpacingColumn(5)
+    .setSpacingRow(20)
+    .addItem("Show tree", 0)
+    .moveTo(quadTreeGroup)
+    ;
+
+  quadTreeGroupY += 20;
+  quadTreeLinesColorPicker = cp5.addColorPicker("quadTreeLinesColorPicker", 0, (int)quadTreeGroupY, 150, 12)
+    .moveTo(quadTreeGroup)
+    .setColorValue(color(0, 255, 255, 200))
+    ;
+
+  quadTreeGroupY +=65;
+  quadTreeBoidPerSquareLimitSlider = cp5.addSlider("quadTreeBoidPerSquareLimitSlider")
+    .setPosition(4, quadTreeGroupY)
+    .setLabel("Boid limit/square")
+    .setWidth(144)
+    .setRange(1, 20)
+    .setValue(6)
+    .setNumberOfTickMarks(20)
+    .moveTo(quadTreeGroup)
+    ;
+  quadTreeBoidPerSquareLimitSlider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.CENTER);
+  quadTreeBoidPerSquareLimitSlider.getValueLabel().align(ControlP5.RIGHT, ControlP5.CENTER);
+
+  quadTreeGroupY +=25;
+  quadTreeBoidsPerceptionRadiuslider = cp5.addSlider("quadTreeBoidsPerceptionRadiuslider")
+    .setPosition(4, quadTreeGroupY)
+    .setLabel("Boid perception radius")
+    .setWidth(144)
+    .setRange(1, 200)
+    .setValue(30)
+    .moveTo(quadTreeGroup)
+    ;
+  quadTreeBoidsPerceptionRadiuslider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.CENTER);
+  quadTreeBoidsPerceptionRadiuslider.getValueLabel().align(ControlP5.RIGHT, ControlP5.CENTER);
+
+
+  /////
   settingsMenu = cp5.addAccordion("Settings")
     .setPosition(5, 22)
     .setWidth(150)
@@ -442,6 +476,7 @@ void setupBoidsMenu() {
     .addItem(basicGroup)
     .addItem(flockingGroup)
     .addItem(mouseGroup)
+    .addItem(quadTreeGroup)
     ;
 
   //boidsMenu.open(0, 1);
@@ -491,16 +526,6 @@ void controlEvent(ControlEvent theEvent) {
 
   if (theEvent.isFrom("desiredBoids")) {
     println(desiredBoidsTextField.getStringValue());
-  }
-
-  if (theEvent.isFrom(checkbox)) {
-    int col = 0;
-    for (int i=0; i<checkbox.getArrayValue().length; i++) {
-      int n = (int)checkbox.getArrayValue()[i];
-      if (i ==0) {
-        showQTree = boolean(n);
-      }
-    }
   }
 }
 

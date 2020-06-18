@@ -18,32 +18,30 @@ void keyPressed() {
 void draw() {
   if (backgroundColorPicker != null)
     background(backgroundColorPicker.getColorValue());
-    
+
   if (showMouseCursorCheckBox.getArrayValue()[0] == 1) {
     cursor();
   } else {
     noCursor();
   }
-  
+
   if (showMouseRadiusCheckBox.getArrayValue()[0] == 1) {
     fill(mouseFillColorPicker.getColorValue());
     stroke(mouseStrokeColorPicker.getColorValue());
     circle(mouseX, mouseY, mouseRadiusSlider.getValue()/2);
   }
 
-
-
-  qtree = new QuadTree(new Rectangle(width/2, height/2, width, height), 6);
+  qtree = new QuadTree(new Rectangle(width/2, height/2, width, height), (int)quadTreeBoidPerSquareLimitSlider.getValue());
   for (Boid boid : flock.boids) {
     qtree.insert(new Point(boid.position.x, boid.position.y, boid));
   }
 
-  if (showQTree) {
-    qtree.show();
-  }
-
   runPredators();
   flock.display();
+
+  if (showQuadTreeCheckBox.getArrayValue()[0] == 1) {
+    qtree.show();
+  }
 
   drawUI();
 
