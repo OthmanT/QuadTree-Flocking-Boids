@@ -6,13 +6,6 @@ class Boid {
 
   float maxSpeed = random(3,4);
 
-  float separationMaxForce = 0.1;
-
-  float cohesionMaxForce = random(0.01, 0.1);
-
-  float alignmentRadius = 50;
-  float alignmentMaxForce = 0.1;
-
   PShape shape;
   float angle = 0;
   color c = color(random(100, 125), random(100, 150), random(100, 200));
@@ -75,7 +68,7 @@ class Boid {
       // Implement Reynolds: Steering = Desired - Velocity
       steer.setMag(maxSpeed);
       steer.sub(velocity);
-      steer.limit(separationMaxForce);
+      steer.limit(separationMaxForceSlider.getValue());
     }
     return steer;
   }
@@ -85,7 +78,7 @@ class Boid {
     int count = 0;
     for (Point point : points) {
       float d = PVector.dist(position, point.boid.position);
-      if ((d > 0) && (d < alignmentRadius/2)) {
+      if ((d > 0) && (d < alignmentRadiusSlider.getValue()/2)) {
         sum.add(point.boid.velocity);
         count++;
       }
@@ -94,7 +87,7 @@ class Boid {
       sum.div((float)count);
       sum.setMag(maxSpeed);
       PVector steer = PVector.sub(sum, velocity);
-      steer.limit(alignmentMaxForce);
+      steer.limit(alignmentMaxForceSlider.getValue());
       return steer;
     } else {
       return new PVector();
@@ -113,7 +106,7 @@ class Boid {
     }
     if (count > 0) {
       sum.div(count);
-      return seek(sum, cohesionMaxForce);
+      return seek(sum, cohesionMaxForceSlider.getValue());
     } else {
       return new PVector();
     }

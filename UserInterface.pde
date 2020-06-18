@@ -4,12 +4,15 @@ CheckBox checkbox;
 
 Slider separationScaleSlider;
 Slider separationRadiusSlider;
+Slider separationMaxForceSlider; 
 
 Slider cohesionScaleSlider;
 Slider cohesionRadiusSlider;
+Slider cohesionMaxForceSlider;
 
 Slider alignmentScaleSlider;
 Slider alignmentRadiusSlider;
+Slider alignmentMaxForceSlider;
 
 Slider fearSlider;
 Slider mouseFearSlider;
@@ -127,84 +130,137 @@ void setupBoidsMenu() {
     ;
 
   //////
-  Group separationGroup = cp5.addGroup("SeparationGroup")
+  Group flockingGroup = cp5.addGroup("FlockingGroup")
     .setBackgroundColor(color(0, 64))
     .setHeight(15)
     .setBackgroundHeight(10) 
     ;
 
-  separationGroup.setBackgroundHeight (300);
+  float y = 15;
+  cp5.addTextlabel("SeparationLabel")
+    .setText("Separation")
+    .setPosition(2, y)
+    .setColorValue(255)
+    .moveTo(flockingGroup)
+    ;
+
+  y += 15;
+  flockingGroup.setBackgroundHeight (300);
   separationScaleSlider = cp5.addSlider("SeparationScale")
-    .setPosition(4, 10)
+    .setPosition(4, y)
     .setWidth(144)
     .setRange(0, 10)
-    .moveTo(separationGroup)
+    .moveTo(flockingGroup)
     ;
 
   separationScaleSlider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.CENTER);
   separationScaleSlider.getValueLabel().align(ControlP5.RIGHT, ControlP5.CENTER);
 
+  y +=20;
   separationRadiusSlider = cp5.addSlider("SeparationRadius")
-    .setPosition(4, 25)
+    .setPosition(4, y)
     .setWidth(144)
     .setRange(0, 100)
-    .moveTo(separationGroup)
+    .moveTo(flockingGroup)
     ;
 
   separationRadiusSlider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.CENTER);
   separationRadiusSlider.getValueLabel().align(ControlP5.RIGHT, ControlP5.CENTER);
-  /////
-  Group cohesionGroup = cp5.addGroup("CohesionGroup")
-    .setBackgroundColor(color(0, 64))
-    .setHeight(15)
-    .setBackgroundHeight(10) 
+
+  y +=20;
+  separationMaxForceSlider = cp5.addSlider("SeparationMaxSteerForce")
+    .setPosition(4, y)
+    .setWidth(144)
+    .setRange(0, 1)
+    .moveTo(flockingGroup)
     ;
 
+  separationMaxForceSlider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.CENTER);
+  separationMaxForceSlider.getValueLabel().align(ControlP5.RIGHT, ControlP5.CENTER);
+  /////
+
+  y += 25;
+  cp5.addTextlabel("CohesionLabel")
+    .setText("Cohesion")
+    .setPosition(2, y)
+    .setColorValue(255)
+    .moveTo(flockingGroup)
+    ;
+
+  y += 15;
   cohesionScaleSlider = cp5.addSlider("CohesionScale")
-    .setPosition(4, 10)
+    .setPosition(4, y)
     .setWidth(144)
     .setRange(0, 10)
-    .moveTo(cohesionGroup)
+    .moveTo(flockingGroup)
     ;
 
   cohesionScaleSlider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.CENTER);
   cohesionScaleSlider.getValueLabel().align(ControlP5.RIGHT, ControlP5.CENTER);
 
+  y += 20;
   cohesionRadiusSlider = cp5.addSlider("CohesionRadius")
-    .setPosition(4, 25)
+    .setPosition(4, y)
     .setWidth(144)
     .setRange(0, 100)
-    .moveTo(cohesionGroup)
+    .moveTo(flockingGroup)
     ;
 
   cohesionRadiusSlider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.CENTER);
   cohesionRadiusSlider.getValueLabel().align(ControlP5.RIGHT, ControlP5.CENTER);
-  ////
-  Group alignmentGroup = cp5.addGroup("AlignmentGroup")
-    .setBackgroundColor(color(0, 64))
-    .setHeight(15)
-    .setBackgroundHeight(10) 
+
+  y +=20;
+  cohesionMaxForceSlider = cp5.addSlider("cohesionMaxSteerForce")
+    .setPosition(4, y)
+    .setWidth(144)
+    .setRange(0, 1)
+    .moveTo(flockingGroup)
     ;
 
+  cohesionMaxForceSlider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.CENTER);
+  cohesionMaxForceSlider.getValueLabel().align(ControlP5.RIGHT, ControlP5.CENTER);
+
+  ////
+  y += 25;
+  cp5.addTextlabel("AlignmentLabel")
+    .setText("Alignment")
+    .setPosition(2, y)
+    .setColorValue(255)
+    .moveTo(flockingGroup)
+    ;
+
+  y += 15;
   alignmentScaleSlider = cp5.addSlider("AlignmentScale")
-    .setPosition(4, 10)
+    .setPosition(4, y)
     .setWidth(144)
     .setRange(0, 10)
-    .moveTo(alignmentGroup)
+    .moveTo(flockingGroup)
     ;
 
   alignmentScaleSlider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.CENTER);
   alignmentScaleSlider.getValueLabel().align(ControlP5.RIGHT, ControlP5.CENTER);
 
+  y += 20;
   alignmentRadiusSlider = cp5.addSlider("AlignmentRadius")
-    .setPosition(4, 25)
+    .setPosition(4, y)
     .setWidth(144)
     .setRange(0, 100)
-    .moveTo(alignmentGroup)
+    .moveTo(flockingGroup)
     ;
 
   alignmentRadiusSlider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.CENTER);
   alignmentRadiusSlider.getValueLabel().align(ControlP5.RIGHT, ControlP5.CENTER);
+
+  y +=20;
+  alignmentMaxForceSlider = cp5.addSlider("alignmentMaxSteerForce")
+    .setPosition(4, y)
+    .setWidth(144)
+    .setRange(0, 1)
+    .moveTo(flockingGroup)
+    ;
+
+  alignmentMaxForceSlider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.CENTER);
+  alignmentMaxForceSlider.getValueLabel().align(ControlP5.RIGHT, ControlP5.CENTER);
   ////
 
   separationScaleSlider.setValue(1);
@@ -213,6 +269,9 @@ void setupBoidsMenu() {
   cohesionScaleSlider.setValue(1);
   alignmentRadiusSlider.setValue(20);
   alignmentScaleSlider.setValue(1);
+  separationMaxForceSlider.setValue(0.1);
+  cohesionMaxForceSlider.setValue(0.1);
+  alignmentMaxForceSlider.setValue(0.1);
 
   //The menu
   settingsMenu = cp5.addAccordion("Boids")
@@ -220,9 +279,7 @@ void setupBoidsMenu() {
     .setWidth(150)
 
     .addItem(basicGroup)
-    .addItem(separationGroup)
-    .addItem(cohesionGroup)
-    .addItem(alignmentGroup)
+    .addItem(flockingGroup)
     ;
 
   //boidsMenu.open(0, 1);
