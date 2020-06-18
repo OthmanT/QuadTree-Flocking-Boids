@@ -26,6 +26,7 @@ Accordion settingsMenu;
 Slider boidsSizeSlider;
 ColorPicker boidsFillColorPicker;
 ColorPicker boidsStrokeColorPicker;
+Slider boidsStrokeWeightSlider;
 RadioButton boidApparenceRadioButton;
 
 RadioButton mouseBehaviorRadioButton;
@@ -78,7 +79,7 @@ void setupSettingsMenu() {
     .setLabel("Boids appearance")
     .setBackgroundColor(color(0, 64))
     .setHeight(15)
-    .setBackgroundHeight(230) 
+    .setBackgroundHeight(250) 
     ;
 
 
@@ -133,8 +134,21 @@ void setupSettingsMenu() {
     .moveTo(basicGroup)
     .setValue(color(255))
     ;
+    
+  basicGroupY +=75;
+  boidsStrokeWeightSlider = cp5.addSlider("boidsStrokeWeightSlider")
+    .setLabel("Stroke Weight")
+    .setPosition(4, basicGroupY)
+    .setWidth(144)
+    .setRange(0, 5)
+    .setValue(1)
+    .moveTo(basicGroup)
+    ;
 
-  basicGroupY +=70;
+  boidsStrokeWeightSlider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.CENTER);
+  boidsStrokeWeightSlider.getValueLabel().align(ControlP5.RIGHT, ControlP5.CENTER);
+
+    basicGroupY +=15;
   cp5.addTextlabel("StrokeColorLabel")
     .setText("Stroke color")
     .setPosition(2, basicGroupY)

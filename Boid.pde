@@ -234,12 +234,14 @@ class Boid {
       if (!this.highlighted) {
         shape.setFill(boidsFillColorPicker.getColorValue());
         shape.setStroke(boidsStrokeColorPicker.getColorValue());
+        shape.setStrokeWeight(boidsStrokeWeightSlider.getValue());
       } else {
         shape.setFill(color(230, 20, 20, 255));
       }
       shape(shape, 0, 0);
     } else {//Circle
       fill(boidsFillColorPicker.getColorValue());
+      strokeWeight(boidsStrokeWeightSlider.getValue());
       stroke(boidsStrokeColorPicker.getColorValue());
       if (boidsSizeSlider != null)
         circle(0, 0, boidsSizeSlider.getValue()*20);
