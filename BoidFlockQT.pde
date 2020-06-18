@@ -26,9 +26,9 @@ void draw() {
   }
   
   if (showMouseRadiusCheckBox.getArrayValue()[0] == 1) {
-    noFill();
-    stroke(255, 0, 0);
-    circle(mouseX, mouseY, mouseRadiusSlider.getValue());
+    fill(mouseFillColorPicker.getColorValue());
+    stroke(mouseStrokeColorPicker.getColorValue());
+    circle(mouseX, mouseY, mouseRadiusSlider.getValue()/2);
   }
 
 

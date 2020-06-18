@@ -39,6 +39,8 @@ CheckBox showMouseCursorCheckBox;
 CheckBox showMouseRadiusCheckBox;
 Slider mouseRadiusSlider;
 Slider mouseForceSlider;
+ColorPicker mouseFillColorPicker;
+ColorPicker mouseStrokeColorPicker;
 
 boolean showQTree = false;
 void setupUI() {
@@ -344,7 +346,7 @@ void setupBoidsMenu() {
   Group mouseGroup = cp5.addGroup("mouseGroup")
     .setBackgroundColor(color(0, 64))
     .setHeight(15)
-    .setBackgroundHeight(200) 
+    .setBackgroundHeight(270) 
     ;
 
   float mouseGroupY = 4;
@@ -415,13 +417,34 @@ void setupBoidsMenu() {
     ;
   mouseRadiusSlider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.CENTER);
   mouseRadiusSlider.getValueLabel().align(ControlP5.RIGHT, ControlP5.CENTER);
-  /*
-RadioButton mouseBehaviorRadioButton;
-   CheckBox showMouseCursorCheckBox;
-   CheckBox showMouseRadiusCheckBox;
-   Slider mouseRadiusSlider;
-   Slider mouseForceSlider;
-   */
+
+  mouseGroupY += 20;
+  cp5.addTextlabel("mouseFillColorLabel")
+    .setText("Fill color")
+    .setPosition(2, mouseGroupY)
+    .setColorValue(255)
+    .moveTo(mouseGroup)
+    ;
+
+  mouseGroupY += 15;
+  mouseFillColorPicker = cp5.addColorPicker("mouseFillColorPicker", 0, (int)mouseGroupY, 150, 12)
+    .moveTo(mouseGroup)
+    .setColorValue(color(255,255,255,0))
+    ;
+
+  mouseGroupY += 70;
+  cp5.addTextlabel("mouseStrokeColorLabel")
+    .setText("Stroke color")
+    .setPosition(2, mouseGroupY)
+    .setColorValue(255)
+    .moveTo(mouseGroup)
+    ;
+
+  mouseGroupY += 15;
+  mouseStrokeColorPicker = cp5.addColorPicker("mouseStrokeColorPicker", 0, (int)mouseGroupY, 150, 12)
+    .moveTo(mouseGroup)
+    .setColorValue(color(255,0,0))
+    ;
 
   //The menu
   settingsMenu = cp5.addAccordion("Settings")

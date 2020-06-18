@@ -203,12 +203,10 @@ class Boid {
     //applyForce(avoidPredators(predators).mult(fearSlider.getValue()));
     int behavior = mouseBehaviorRadioButton.getArrayValue()[0] == 0 ? 1 : -1;
     applyForce(avoidPosition(new PVector(mouseX, mouseY), 
-      mouseRadiusSlider.getValue()/2)
+      mouseRadiusSlider.getValue()/4)
       .mult(mouseForceSlider.getValue())
       .mult(behavior)
       );
-
-    //applyForce(seekPosition(new PVector(mouseX, mouseY), 250).mult(0.07));
   }
 
   void update() {
