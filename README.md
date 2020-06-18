@@ -2,4 +2,4 @@
 QuadTree Flocking Boids in Processing
 
 Requirements:
-P5 library
+ControlP5 library
