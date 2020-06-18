@@ -77,7 +77,7 @@ void setupSettingsMenu() {
 
   Group basicGroup = cp5.addGroup("basicGroup")
     .setLabel("Boids appearance")
-    .setBackgroundColor(color(0, 64))
+    .setBackgroundColor(color(0, 210))
     .setHeight(15)
     .setBackgroundHeight(250) 
     ;
@@ -134,7 +134,7 @@ void setupSettingsMenu() {
     .moveTo(basicGroup)
     .setValue(color(255))
     ;
-    
+
   basicGroupY +=75;
   boidsStrokeWeightSlider = cp5.addSlider("boidsStrokeWeightSlider")
     .setLabel("Stroke Weight")
@@ -148,7 +148,7 @@ void setupSettingsMenu() {
   boidsStrokeWeightSlider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.CENTER);
   boidsStrokeWeightSlider.getValueLabel().align(ControlP5.RIGHT, ControlP5.CENTER);
 
-    basicGroupY +=15;
+  basicGroupY +=15;
   cp5.addTextlabel("StrokeColorLabel")
     .setText("Stroke color")
     .setPosition(2, basicGroupY)
@@ -170,7 +170,7 @@ void setupSettingsMenu() {
 
   Group flockingGroup = cp5.addGroup("FlockingGroup")
     .setLabel("Flocking behavior")
-    .setBackgroundColor(color(0, 64))
+    .setBackgroundColor(color(0, 210))
     .setHeight(15)
     .setBackgroundHeight(10) 
     ;
@@ -340,7 +340,7 @@ void setupSettingsMenu() {
   //////
   Group mouseGroup = cp5.addGroup("mouseGroup")
     .setLabel("Mouse settings & behavior")
-    .setBackgroundColor(color(0, 64))
+    .setBackgroundColor(color(0, 210))
     .setHeight(15)
     .setBackgroundHeight(270) 
     ;
@@ -449,9 +449,9 @@ void setupSettingsMenu() {
   //////
   Group quadTreeGroup = cp5.addGroup("quadTreeGroup")
     .setLabel("QuadTree")
-    .setBackgroundColor(color(0, 64))
+    .setBackgroundColor(color(0, 210))
     .setHeight(15)
-    .setBackgroundHeight(125) 
+    .setBackgroundHeight(130) 
     ;
 
   float quadTreeGroupY = 4;      
@@ -504,7 +504,6 @@ void setupSettingsMenu() {
   settingsMenu = cp5.addAccordion("Settings")
     .setPosition(5, 22)
     .setWidth(150)
-
     .addItem(basicGroup)
     .addItem(flockingGroup)
     .addItem(mouseGroup)
