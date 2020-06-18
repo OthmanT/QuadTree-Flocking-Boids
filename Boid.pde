@@ -181,7 +181,6 @@ class Boid {
     this.c = color(averageColor.x, averageColor.y, averageColor.z);
   }
 
-
   void applyForce(PVector force) {
     acceleration.add(force);
   }
@@ -197,11 +196,17 @@ class Boid {
   }
 
   void flock(ArrayList<Point> points) {
+    //Flocking
     applyForce(separationVector(points).mult(separationScaleSlider.getValue()));
     applyForce(alignmentVector(points).mult(alignmentScaleSlider.getValue()));
     applyForce(cohesionVector(points).mult(cohesionScaleSlider.getValue()));
 
     //applyForce(avoidPredators(predators).mult(fearSlider.getValue()));
+    if (seekMouseOnClickCheckBox.getArrayValue()[0] == 0 || (mousePressed && seekMouseOnClickCheckBox.getArrayValue()[0] == 1)) {
+        applyForce(seek(new PVector(mouseX, mouseY), seekMouseForceSlider.getValue()));
+    }
+
+    //Mouse behavior
     int behavior = mouseBehaviorRadioButton.getArrayValue()[0] == 0 ? 1 : -1;
     applyForce(avoidPosition(new PVector(mouseX, mouseY), 
       mouseRadiusSlider.getValue()/4)
@@ -229,7 +234,6 @@ class Boid {
   void display() {
     pushMatrix();
     translate(position.x, position.y);
-    shape.scale(1);
     if (boidApparenceRadioButton.getArrayValue()[0] == 1) {//Arrow
       if (!this.highlighted) {
         shape.setFill(boidsFillColorPicker.getColorValue());

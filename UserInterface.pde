@@ -1,7 +1,8 @@
 import controlP5.*;
 ControlP5 cp5;
 
-
+CheckBox seekMouseOnClickCheckBox;
+Slider seekMouseForceSlider;
 Slider maxSpeedSlider;
 Slider separationScaleSlider;
 Slider separationRadiusSlider;
@@ -172,11 +173,10 @@ void setupSettingsMenu() {
     .setLabel("Flocking behavior")
     .setBackgroundColor(color(0, 210))
     .setHeight(15)
-    .setBackgroundHeight(10) 
     ;
-  flockingGroup.setBackgroundHeight (300);
+  flockingGroup.setBackgroundHeight (330);
 
-  float y = 15;
+  float y = 4;
   cp5.addTextlabel("SpeedLabel")
     .setText("Speed")
     .setPosition(2, y)
@@ -188,12 +188,45 @@ void setupSettingsMenu() {
   maxSpeedSlider = cp5.addSlider("MaxSpeed")
     .setPosition(4, y)
     .setWidth(144)
-    .setRange(0, 6)
+    .setRange(0, 20)
     .moveTo(flockingGroup)
     ;
 
   maxSpeedSlider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.CENTER);
   maxSpeedSlider.getValueLabel().align(ControlP5.RIGHT, ControlP5.CENTER);
+
+  y += 25;
+  cp5.addTextlabel("SeekMouseLabel")
+    .setText("Seek Mouse")
+    .setPosition(2, y)
+    .setColorValue(255)
+    .moveTo(flockingGroup)
+    ;
+
+  y += 15;
+  seekMouseForceSlider = cp5.addSlider("seekMouseForceSlider")
+    .setPosition(4, y)
+    .setWidth(144)
+    .setRange(0, 1)
+    .setValue(0.1)
+    .moveTo(flockingGroup)
+    ;
+
+  seekMouseForceSlider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.CENTER);
+  seekMouseForceSlider.getValueLabel().align(ControlP5.RIGHT, ControlP5.CENTER);
+  
+  y += 15;
+  seekMouseOnClickCheckBox = cp5.addCheckBox("seekMouseOnClickCheckBox")
+    .setPosition(4, y)
+    .setColorActive(color(255))
+    .setColorLabel(color(255))
+    .setSize(10, 10)
+    .setSpacingRow(20)
+    .addItem("Seek Mouse on click", 0)
+    .activate(0)
+    .moveTo(flockingGroup)
+    ;
+
 
   ////
   y += 25;
