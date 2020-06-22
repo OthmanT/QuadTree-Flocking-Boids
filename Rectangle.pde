@@ -1,6 +1,4 @@
-class Rectangle {
-  float x;
-  float y;
+class Rectangle extends SelectionShape implements SelectionShapeInterface {
   float w;
   float h;
 

@@ -36,6 +36,11 @@ void draw() {
   for (Boid boid : flock.boids) {
     qtree.insert(new Point(boid.position.x, boid.position.y, boid));
   }
+  
+  ArrayList<Point> selection = qtree.query(new Circle(mouseX, mouseY, 100), null);
+  for(Point p : selection){
+    p.boid.setHighlighted(true);
+  }
 
   runPredators();
   flock.display();

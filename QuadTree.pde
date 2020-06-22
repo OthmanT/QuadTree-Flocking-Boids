@@ -70,7 +70,7 @@ class QuadTree {
     this.divided = true;
   }
 
-  ArrayList<Point> query(Rectangle range, ArrayList<Point> found) {
+  ArrayList<Point> query(SelectionShapeInterface range, ArrayList<Point> found) {
     if (found == null) {
       found = new ArrayList<Point>();
     }
