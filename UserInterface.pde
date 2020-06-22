@@ -95,15 +95,16 @@ void setupSettingsMenu() {
 
   basicGroupY += 15;
   boidApparenceRadioButton = cp5.addRadioButton("radioButton")
-    .setPosition(20, basicGroupY)
+    .setPosition(4, basicGroupY)
     .setSize(10, 10)
     .setColorForeground(color(120))
     .setColorActive(color(255))
     .setColorLabel(color(255))
-    .setItemsPerRow(2)
-    .setSpacingColumn(40)
+    .setItemsPerRow(3)
+    .setSpacingColumn(35)
     .addItem("Arrow", 1)
     .addItem("Circle", 2)
+    .addItem("Fish",3)
     .activate(0)
     .moveTo(basicGroup)
     ;
