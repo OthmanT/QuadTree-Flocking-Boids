@@ -20,6 +20,8 @@ ColorPicker backgroundColorPicker;
 boolean showBackgroundColorPicker = true;
 Button backgroundColorButton;
 
+CheckBox slowChangeCheckBox;
+
 Button settingsMenuButton;
 boolean showSettings = false;
 Accordion settingsMenu;
@@ -53,6 +55,19 @@ void setupUI() {
 
 void setupBarUI() {
 
+
+  slowChangeCheckBox = cp5.addCheckBox("slowChangeCheckBox")
+    .setPosition(width-250, 6)
+    .setColorForeground(color(200))
+    .setColorBackground(color(150))
+    .setColorLabel(color(255))
+    .setSize(10, 10)
+    .setItemsPerRow(3)
+    .setSpacingColumn(5)
+    .setSpacingRow(20)
+    .addItem("Slow change", 0)
+    ;
+    
   desiredBoidsTextField = cp5.addTextfield("desiredBoids")
     .setPosition(width - 90, 2)
     .setSize(40, 16)
@@ -551,7 +566,7 @@ void setupSettingsMenu() {
 
 void setupBackgroundColorPicker() {
   backgroundColorPicker = cp5.addColorPicker("backgroundColorPicker")
-    .setPosition(width - 350, 25)
+    .setPosition(width - 500, 25)
     .setColorValue(color(50))
     ;
 
@@ -559,7 +574,7 @@ void setupBackgroundColorPicker() {
 
   backgroundColorButton = cp5.addButton("BG Color")
     .setValue(0)
-    .setPosition(width - 250, 2)
+    .setPosition(width - 500, 2)
     .setColorBackground(backgroundColorPicker.getColorValue())
     .setSize(60, 16)
     ;

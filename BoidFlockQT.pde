@@ -36,7 +36,7 @@ void draw() {
   for (Boid boid : flock.boids) {
     qtree.insert(new Point(boid.position.x, boid.position.y, boid));
   }
-  
+
   //ArrayList<Point> selection = qtree.query(new Circle(mouseX, mouseY, 100), null);
   //for(Point p : selection){
   //  p.boid.setHighlighted(true);
@@ -65,11 +65,23 @@ void runPredators() {
 
 void reachDesiredNumberOfBoids() {
   if (flock.boids.size() < int(desiredBoidsTextField.getStringValue())) {
-    flock.boids.add(new Boid());
+    if (slowChangeCheckBox.getArrayValue()[0] == 0) {
+      for (int i = flock.boids.size(); i < int(desiredBoidsTextField.getStringValue()); i++) {
+        flock.boids.add(new Boid());
+      }
+    } else {
+      flock.boids.add(new Boid());
+    }
   }
 
   if (flock.boids.size() > int(desiredBoidsTextField.getStringValue())) {
-    flock.boids.remove(flock.boids.size()-1);
+    if (slowChangeCheckBox.getArrayValue()[0] == 0) {
+      for (int i = flock.boids.size(); i > int(desiredBoidsTextField.getStringValue()); i--) {
+        flock.boids.remove(flock.boids.size()-1);
+      }
+    } else {
+      flock.boids.remove(flock.boids.size()-1);
+    }
   }
 }
 
