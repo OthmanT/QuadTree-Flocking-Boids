@@ -9,12 +9,14 @@ class Boid {
   PShape shape;
   float angle = 0;
   color c = color(random(0, 100), random(50, 200), random(50, 200));
+  float scale = random(0.6, 1);
 
   boolean highlighted = false;
 
   Boid() {
     setupShape(0.5);
     animation = new Animation("fish_", 4);
+    animation.setScale(scale);
   }
 
   void setupShape(float scale) {
