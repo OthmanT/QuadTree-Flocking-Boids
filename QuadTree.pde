@@ -1,12 +1,12 @@
 class Point {
   float x;
   float y;
-  Boid boid;
+  Object obj;
 
-  Point(float x, float y, Boid boid) {
+  Point(float x, float y, Object obj) {
     this.x = x;
     this.y = y;
-    this.boid = boid;
+    this.obj = obj;
   }
 }
 

@@ -54,6 +54,13 @@ void draw() {
     qtree.insert(new Point(boid.position.x, boid.position.y, boid));
   }
 
+  for (Wall wall : walls) {
+    for (Obstacle obstacle : wall.obstacles) {
+      qtree.insert(new Point(obstacle.position.x, obstacle.position.y, obstacle));
+    }
+  }
+
+
   //ArrayList<Point> selection = qtree.query(new Circle(mouseX, mouseY, 100), null);
   //for(Point p : selection){
   //  p.boid.setHighlighted(true);
@@ -61,7 +68,7 @@ void draw() {
 
   runPredators();
   flock.display();
-  
+
   for (Wall wall : walls)
     wall.display();
 

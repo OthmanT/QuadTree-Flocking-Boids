@@ -52,14 +52,16 @@ class Boid {
     int count = 0;
 
     for (Point point : points) {
-      float d = PVector.dist(position, point.boid.position);
+      if (point.obj instanceof Boid) {
+        float d = PVector.dist(position, ((Boid)point.obj).position);
 
-      if ((d > 0) && (d < separationRadiusSlider.getValue()/2)) {
-        PVector diff = PVector.sub(position, point.boid.position);
-        diff.normalize();
-        diff.div(d);
-        steer.add(diff);
-        count++;
+        if ((d > 0) && (d < separationRadiusSlider.getValue()/2)) {
+          PVector diff = PVector.sub(position, ((Boid)point.obj).position);
+          diff.normalize();
+          diff.div(d);
+          steer.add(diff);
+          count++;
+        }
       }
     }
 
@@ -81,10 +83,12 @@ class Boid {
     PVector sum = new PVector(0, 0);
     int count = 0;
     for (Point point : points) {
-      float d = PVector.dist(position, point.boid.position);
-      if ((d > 0) && (d < alignmentRadiusSlider.getValue()/2)) {
-        sum.add(point.boid.velocity);
-        count++;
+      if (point.obj instanceof Boid) {
+        float d = PVector.dist(position, ((Boid)point.obj).position);
+        if ((d > 0) && (d < alignmentRadiusSlider.getValue()/2)) {
+          sum.add(((Boid)point.obj).velocity);
+          count++;
+        }
       }
     }
     if (count > 0) {
@@ -102,10 +106,12 @@ class Boid {
     PVector sum = new PVector();
     int count = 0;
     for (Point point : points) {
-      float d = PVector.dist(position, point.boid.position);
-      if ((d > 0) && (d < cohesionRadiusSlider.getValue()/2)) {
-        sum.add(point.boid.position);
-        count++;
+      if (point.obj instanceof Boid) {
+        float d = PVector.dist(position, ((Boid)point.obj).position);
+        if ((d > 0) && (d < cohesionRadiusSlider.getValue()/2)) {
+          sum.add(((Boid)point.obj).position);
+          count++;
+        }
       }
     }
     if (count > 0) {
@@ -137,6 +143,27 @@ class Boid {
         count++;
       }
     }
+    if (count > 0) {
+      sum.div(count);
+      return seek(sum, 3).mult(-1);
+    } else {
+      return new PVector();
+    }
+  }
+
+  PVector avoidWalls(ArrayList<Point> points) {
+    PVector sum = new PVector();
+    int count = 0;
+    for (Point point : points) {
+      if (point.obj instanceof Obstacle) {
+        float d = PVector.dist(position, ((Obstacle)point.obj).position);
+        if ((d > 0) && (d < wallsSizeSlider.getValue()/2+10)) {
+        sum.add(((Obstacle)point.obj).position);
+        count++;
+      }
+      }
+    }
+
     if (count > 0) {
       sum.div(count);
       return seek(sum, 3).mult(-1);
@@ -219,13 +246,7 @@ class Boid {
       .mult(behavior)
       );
 
-    //Wall avoidance
-    for(Wall wall : walls){
-      for(Obstacle obstacle : wall.obstacles){
-        applyForce(avoidPosition(obstacle.position, wallsSizeSlider.getValue()/2+10)
-        .mult(wallsSteerForceSlider.getValue()));
-      }
-    }
+    applyForce(avoidWalls(points).mult(wallsSteerForceSlider.getValue()));
   }
 
   void update() {
