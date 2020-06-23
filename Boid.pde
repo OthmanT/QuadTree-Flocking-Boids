@@ -158,9 +158,9 @@ class Boid {
       if (point.obj instanceof Obstacle) {
         float d = PVector.dist(position, ((Obstacle)point.obj).position);
         if ((d > 0) && (d < wallsSizeSlider.getValue()/2+10)) {
-        sum.add(((Obstacle)point.obj).position);
-        count++;
-      }
+          sum.add(((Obstacle)point.obj).position);
+          count++;
+        }
       }
     }
 
@@ -234,9 +234,6 @@ class Boid {
     applyForce(cohesionVector(points).mult(cohesionScaleSlider.getValue()));
 
     //applyForce(avoidPredators(predators).mult(fearSlider.getValue()));
-    if (seekMouseOnClickCheckBox.getArrayValue()[0] == 0 || (mousePressed && seekMouseOnClickCheckBox.getArrayValue()[0] == 1)) {
-      applyForce(seek(new PVector(mouseX, mouseY), seekMouseForceSlider.getValue()));
-    }
 
     //Mouse behavior
     int behavior = mouseBehaviorRadioButton.getArrayValue()[0] == 0 ? 1 : -1;
@@ -245,6 +242,13 @@ class Boid {
       .mult(mouseForceSlider.getValue())
       .mult(behavior)
       );
+
+    if (mouseActionCheckBox.getArrayValue()[0] == 1) {
+      if (seekMouseOnClickCheckBox.getArrayValue()[0] == 0 || (mousePressed && seekMouseOnClickCheckBox.getArrayValue()[0] == 1)) {
+        applyForce(seek(new PVector(mouseX, mouseY), seekMouseForceSlider.getValue()));
+      }
+    }
+
 
     applyForce(avoidWalls(points).mult(wallsSteerForceSlider.getValue()));
   }

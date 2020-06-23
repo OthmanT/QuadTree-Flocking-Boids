@@ -20,13 +20,17 @@ void keyPressed() {
   }
 }
 
+boolean firstClick = false;
 void mousePressed() {
-  if (mousePressed && (mouseButton == RIGHT)) {
-
-    if (!currentWall.finished) {
-      if (currentWall.addPoint(new PVector(mouseX, mouseY))) {
-        currentWall = new Wall();
-        walls.add(currentWall);
+  if (mouseActionCheckBox.getArrayValue()[1] == 1) {
+    if (mousePressed) {
+      if(firstClick == false){
+        firstClick = true;
+      } else if (!currentWall.finished) {
+        if (currentWall.addPoint(new PVector(mouseX, mouseY))) {
+          currentWall = new Wall();
+          walls.add(currentWall);
+        }
       }
     }
   }

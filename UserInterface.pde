@@ -21,6 +21,7 @@ boolean showBackgroundColorPicker = true;
 Button backgroundColorButton;
 
 CheckBox slowChangeCheckBox;
+RadioButton mouseActionCheckBox;
 
 Button settingsMenuButton;
 boolean showSettings = false;
@@ -59,6 +60,26 @@ void setupUI() {
 }
 
 void setupBarUI() {
+
+  cp5.addTextlabel("MouseClickLabel")
+    .setText("Mouse click:")
+    .setPosition(70, 7)
+    .setColorValue(255)
+    ;
+
+  mouseActionCheckBox = cp5.addRadioButton("mouseActionCheckBox")
+    .setPosition(130, 6)
+    .setColorForeground(color(200))
+    .setColorBackground(color(150))
+    .setColorLabel(color(255))
+    .setSize(10, 10)
+    .setItemsPerRow(3)
+    .setSpacingColumn(60)
+    .setSpacingRow(20)
+    .addItem("Seek mouse", 0)
+    .addItem("Create wall", 1)
+    .activate(0)
+    ;
 
 
   slowChangeCheckBox = cp5.addCheckBox("slowChangeCheckBox")
@@ -684,6 +705,10 @@ void controlEvent(ControlEvent theEvent) {
     walls.clear();
     currentWall = new Wall();
     walls.add(currentWall);
+  }
+  
+  if(theEvent.isFrom("mouseActionCheckBox")){
+    firstClick = false;
   }
 }
 
