@@ -563,14 +563,9 @@ void setupSettingsMenu() {
     .setLabel("Walls")
     .setBackgroundColor(color(0, 210))
     .setHeight(15)
-    .setBackgroundHeight(130) 
+    .setBackgroundHeight(150) 
     ;
 
-
-  // Slider wallsSizeSlider;
-  //ColorPicker wallsColorPicker;
-  //Button clearWallsButton;
-  //Slider wallsSteerForceSlider;
   float wallsGroupY = 4;
   wallsSizeSlider = cp5.addSlider("wallsSizeSlider")
     .setPosition(4, wallsGroupY)
@@ -605,7 +600,16 @@ void setupSettingsMenu() {
   wallsGroupY += 15;
   wallsColorPicker = cp5.addColorPicker("wallsColorPicker", 0, (int)wallsGroupY, 150, 12)
     .moveTo(wallsGroup)
-    .setColorValue(color(200,100,100,255))
+    .setColorValue(color(200, 100, 100, 255))
+    ;
+
+  wallsGroupY += 65;
+  clearWallsButton = cp5.addButton("clearWallsButton")
+    .setLabel("Clear walls")
+    .setValue(0)
+    .setSize(140, 20)
+    .setPosition(4, wallsGroupY)
+    .moveTo(wallsGroup)
     ;
 
   /////
@@ -674,6 +678,12 @@ void controlEvent(ControlEvent theEvent) {
         boid.changeScale(boidsSizeSlider.getValue());
       }
     }
+  }
+
+  if (theEvent.isFrom("clearWallsButton")) {
+    walls.clear();
+    currentWall = new Wall();
+    walls.add(currentWall);
   }
 }
 
