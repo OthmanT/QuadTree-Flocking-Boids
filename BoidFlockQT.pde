@@ -1,17 +1,34 @@
 Flock flock;
 ArrayList<Predator> predators = new ArrayList<Predator>();
+
+ArrayList<Wall> walls = new ArrayList<Wall>();
+Wall currentWall = new Wall();
+
 QuadTree qtree;
 
 void setup() {
   size(1000, 800, P2D);
   //fullScreen(P2D);
   setupUI();
-  flock = new Flock(1600);
+  flock = new Flock(1000);
+  walls.add(currentWall);
 }
 
 void keyPressed() {
   if (str(key).toLowerCase().equals("c")) {
     showMouseCursorCheckBox.toggle(0);
+  }
+}
+
+void mousePressed() {
+  if (mousePressed && (mouseButton == RIGHT)) {
+
+    if (!currentWall.finished) {
+      if (currentWall.addPoint(new PVector(mouseX, mouseY))) {
+        currentWall = new Wall();
+        walls.add(currentWall);
+      }
+    }
   }
 }
 
@@ -44,6 +61,9 @@ void draw() {
 
   runPredators();
   flock.display();
+  
+  for (Wall wall : walls)
+    wall.display();
 
   if (showQuadTreeCheckBox.getArrayValue()[0] == 1) {
     qtree.show();

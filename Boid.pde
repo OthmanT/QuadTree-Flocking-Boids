@@ -218,6 +218,14 @@ class Boid {
       .mult(mouseForceSlider.getValue())
       .mult(behavior)
       );
+
+    //Wall avoidance
+    for(Wall wall : walls){
+      for(Obstacle obstacle : wall.obstacles){
+        applyForce(avoidPosition(obstacle.position, wallsSizeSlider.getValue()/2+10)
+        .mult(wallsSteerForceSlider.getValue()));
+      }
+    }
   }
 
   void update() {

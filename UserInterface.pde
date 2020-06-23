@@ -45,6 +45,11 @@ Slider quadTreeBoidPerSquareLimitSlider;
 ColorPicker quadTreeLinesColorPicker;
 Slider quadTreeBoidsPerceptionRadiuslider;
 
+Slider wallsSizeSlider;
+ColorPicker wallsColorPicker;
+Button clearWallsButton;
+Slider wallsSteerForceSlider;
+
 void setupUI() {
   cp5 = new ControlP5(this);
 
@@ -67,12 +72,12 @@ void setupBarUI() {
     .setSpacingRow(20)
     .addItem("Slow change", 0)
     ;
-    
+
   desiredBoidsTextField = cp5.addTextfield("desiredBoids")
     .setPosition(width - 90, 2)
     .setSize(40, 16)
-    .setStringValue("1600")
-    .setValue("1600")
+    .setStringValue("1000")
+    .setValue("1000")
     .setFocus(false)
     .setColor(color(250))
     .setColorForeground(color(250)) 
@@ -119,7 +124,7 @@ void setupSettingsMenu() {
     .setSpacingColumn(35)
     .addItem("Arrow", 1)
     .addItem("Circle", 2)
-    .addItem("Fish",3)
+    .addItem("Fish", 3)
     .activate(0)
     .moveTo(basicGroup)
     ;
@@ -230,7 +235,7 @@ void setupSettingsMenu() {
 
   seekMouseForceSlider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.CENTER);
   seekMouseForceSlider.getValueLabel().align(ControlP5.RIGHT, ControlP5.CENTER);
-  
+
   y += 15;
   seekMouseOnClickCheckBox = cp5.addCheckBox("seekMouseOnClickCheckBox")
     .setPosition(4, y)
@@ -549,6 +554,60 @@ void setupSettingsMenu() {
   quadTreeBoidsPerceptionRadiuslider.getValueLabel().align(ControlP5.RIGHT, ControlP5.CENTER);
 
 
+  //////
+  /*
+   Walls Menu
+   */
+  //////
+  Group wallsGroup = cp5.addGroup("wallsGroup")
+    .setLabel("Walls")
+    .setBackgroundColor(color(0, 210))
+    .setHeight(15)
+    .setBackgroundHeight(130) 
+    ;
+
+
+  // Slider wallsSizeSlider;
+  //ColorPicker wallsColorPicker;
+  //Button clearWallsButton;
+  //Slider wallsSteerForceSlider;
+  float wallsGroupY = 4;
+  wallsSizeSlider = cp5.addSlider("wallsSizeSlider")
+    .setPosition(4, wallsGroupY)
+    .setLabel("Thickness")
+    .setWidth(144)
+    .setRange(10, 50)
+    .setValue(15)
+    .moveTo(wallsGroup)
+    ;
+  wallsSizeSlider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.CENTER);
+  wallsSizeSlider.getValueLabel().align(ControlP5.RIGHT, ControlP5.CENTER);
+
+  wallsGroupY += 15;
+  wallsSteerForceSlider = cp5.addSlider("wallsSteerForceSlider")
+    .setPosition(4, wallsGroupY)
+    .setLabel("Force")
+    .setWidth(144)
+    .setRange(0.1, 5)
+    .setValue(1)
+    .moveTo(wallsGroup)
+    ;
+  wallsSteerForceSlider.getCaptionLabel().align(ControlP5.LEFT, ControlP5.CENTER);
+  wallsSteerForceSlider.getValueLabel().align(ControlP5.RIGHT, ControlP5.CENTER);
+
+  wallsGroupY += 25;
+  cp5.addTextlabel("WallsColorLabel")
+    .setText("Color")
+    .setPosition(2, wallsGroupY)
+    .setColorValue(255)
+    .moveTo(wallsGroup)
+    ;
+  wallsGroupY += 15;
+  wallsColorPicker = cp5.addColorPicker("wallsColorPicker", 0, (int)wallsGroupY, 150, 12)
+    .moveTo(wallsGroup)
+    .setColorValue(color(200,100,100,255))
+    ;
+
   /////
   settingsMenu = cp5.addAccordion("Settings")
     .setPosition(5, 22)
@@ -557,6 +616,7 @@ void setupSettingsMenu() {
     .addItem(flockingGroup)
     .addItem(mouseGroup)
     .addItem(quadTreeGroup)
+    .addItem(wallsGroup)
     ;
 
   //boidsMenu.open(0, 1);
