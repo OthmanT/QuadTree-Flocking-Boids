@@ -291,6 +291,7 @@ class Boid {
     } else if (boidApparenceRadioButton.getArrayValue()[2] == 1) {//Fish
       rotate(angle);
       //tint(c);
+      //tint(color(150,50,60));
       animation.display(0, 0);
     }
 

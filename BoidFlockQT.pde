@@ -10,8 +10,9 @@ void setup() {
   size(1000, 800, P2D);
   //fullScreen(P2D);
   setupUI();
-  flock = new Flock(1000);
+  flock = new Flock(100);
   walls.add(currentWall);
+  predators.add(new Predator(new PVector(width/2, height/2)));
 }
 
 void keyPressed() {
@@ -24,7 +25,7 @@ boolean firstClick = false;
 void mousePressed() {
   if (mouseActionCheckBox.getArrayValue()[1] == 1) {
     if (mousePressed) {
-      if(firstClick == false){
+      if (firstClick == false) {
         firstClick = true;
       } else if (!currentWall.finished) {
         if (currentWall.addPoint(new PVector(mouseX, mouseY))) {
@@ -70,8 +71,8 @@ void draw() {
   //  p.boid.setHighlighted(true);
   //}
 
-  runPredators();
   flock.display();
+  runPredators();
 
   for (Wall wall : walls)
     wall.display();
@@ -82,12 +83,19 @@ void draw() {
 
   drawUI();
 
-  reachDesiredNumberOfBoids();
+  //reachDesiredNumberOfBoids();
 }
 
 void runPredators() {
+
   for (Predator predator : predators) {
+    ArrayList<Point> query = qtree.query(new Circle(predator.position.x, predator.position.y, 
+      120), 
+      null);
+
     predator.wrapAround();
+    predator.applyForce(predator.seekClosestBoid(query));
+    predator.eatCloseBoids(query);
     predator.update();
     predator.lookForward();
     predator.display();
