@@ -90,7 +90,7 @@ void runPredators() {
 
   for (Predator predator : predators) {
     ArrayList<Point> query = qtree.query(new Circle(predator.position.x, predator.position.y, 
-      120), 
+      300), 
       null);
 
     predator.wrapAround();

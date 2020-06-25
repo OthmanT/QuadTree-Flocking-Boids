@@ -1,5 +1,7 @@
 class Predator extends Boid {
-  float maxSpeed = 3;
+  float maxSpeed = 6;
+  Arc visionField;
+
   Predator() {
     super();
     maxSpeed = 10;
@@ -15,6 +17,7 @@ class Predator extends Boid {
     shape.scale(2);
     animation = new Animation("shark_", 4);
     animation.setScale(1.5);
+    visionField = new Arc(position.x, position.y + 50, TWO_PI/1.5, 300);
   }
 
   PVector seek(PVector target, float maxForce) {
@@ -28,18 +31,17 @@ class Predator extends Boid {
   }
 
   PVector seekClosestBoid(ArrayList<Point> points) {
-    noFill();
-    stroke(255, 0, 0);
-    strokeWeight(1);
-    circle(this.position.x, this.position.y, 240);
     Boid closestBoid = null;
     float closestDistance = 10000;
     for (Point point : points) {
       if (point.obj instanceof Boid) {
         float d = PVector.dist(position, ((Boid)point.obj).position);
-        if ((d > 0) && (d < closestDistance)) {
-          closestDistance = d;
-          closestBoid = ((Boid)point.obj);
+        if (this.visionField.containsPoint(point.x, point.y)) {//Condense line and below in one condition
+          ((Boid)point.obj).setHighlighted(true);
+          if ((d > 0) && (d < closestDistance)) {
+            closestDistance = d;
+            closestBoid = ((Boid)point.obj);
+          }
         }
       }
     }
@@ -47,7 +49,7 @@ class Predator extends Boid {
       strokeWeight(2);
       stroke(255, 0, 0);
       line(this.position.x, this.position.y, closestBoid.position.x, closestBoid.position.y);
-      return seek(closestBoid.position, 0.1);
+      return seek(closestBoid.position, 0.2);
     } else {
       return new PVector(0, 0);
     }
@@ -57,12 +59,13 @@ class Predator extends Boid {
     noFill();
     strokeWeight(1);
     stroke(255, 0, 0);
-    circle(this.position.x, this.position.y, 50);
+    PVector mouthPosition = new PVector(this.position.x + cos(angle - PI/2)*35, this.position.y+sin(angle - PI/2)*35);
+    circle(mouthPosition.x, mouthPosition.y, 50);
     for (Point point : points) {
       if (point.obj instanceof Boid) {
-        float d = PVector.dist(position, ((Boid)point.obj).position);
+        float d = PVector.dist(mouthPosition, ((Boid)point.obj).position);
 
-        if ((d > 0) && (d < 25)) {
+        if ((d > 0) && (d < 15)) {
           flock.boids.remove(point.obj);
         }
       }
@@ -71,6 +74,21 @@ class Predator extends Boid {
 
   void update() {
     super.update();
+
+    visionField.updatePosition(position.x + cos(angle-PI/2)*25, position.y + sin(angle-PI/2)*25); //shifted to be close to the eyes
+    visionField.setAngle(angle);
+
+    if (this.visionField.containsPoint(mouseX, mouseY)) {
+      fill(0, 255, 0);
+    } else {
+      fill(255, 0, 0);
+    }
+    circle(mouseX, mouseY, 10);
+  }
+
+  void display() {
+    super.display();
+    visionField.display();
   }
 
   //void display() {
