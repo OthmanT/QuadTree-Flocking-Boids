@@ -46,9 +46,9 @@ class Predator extends Boid {
       }
     }
     if (closestBoid != null) {
-      strokeWeight(2);
-      stroke(255, 0, 0);
-      line(this.position.x, this.position.y, closestBoid.position.x, closestBoid.position.y);
+      //strokeWeight(2);
+      //stroke(255, 0, 0);
+      //line(this.position.x, this.position.y, closestBoid.position.x, closestBoid.position.y);
       return seek(closestBoid.position, 0.2);
     } else {
       return new PVector(0, 0);
@@ -60,7 +60,7 @@ class Predator extends Boid {
     strokeWeight(1);
     stroke(255, 0, 0);
     PVector mouthPosition = new PVector(this.position.x + cos(angle - PI/2)*35, this.position.y+sin(angle - PI/2)*35);
-    circle(mouthPosition.x, mouthPosition.y, 25);
+    //circle(mouthPosition.x, mouthPosition.y, 25);
     for (Point point : points) {
       if (point.obj instanceof Boid) {
         float d = PVector.dist(mouthPosition, ((Boid)point.obj).position);
@@ -81,7 +81,7 @@ class Predator extends Boid {
 
   void display() {
     super.display();
-    visionField.display();
+    //visionField.display();
   }
 
   //void display() {

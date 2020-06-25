@@ -145,14 +145,14 @@ class Boid {
     int count = 0;
     for (Predator predator : predators) {
       float d = PVector.dist(position, predator.position);
-      if ((d > 0) && (d < 40)) {
+      if ((d > 0) && (d < 150)) {
         sum.add(predator.position);
         count++;
       }
     }
     if (count > 0) {
       sum.div(count);
-      return seek(sum, 10).mult(-1);
+      return seek(sum, 1).mult(-1);
     } else {
       return new PVector();
     }
@@ -240,7 +240,7 @@ class Boid {
     applyForce(alignmentVector(points).mult(alignmentScaleSlider.getValue()));
     applyForce(cohesionVector(points).mult(cohesionScaleSlider.getValue()));
 
-    applyForce(avoidPredators(predators).mult(3));
+    applyForce(avoidPredators(predators).mult(0.08));
 
     //Mouse behavior
     int behavior = mouseBehaviorRadioButton.getArrayValue()[0] == 0 ? 1 : -1;
