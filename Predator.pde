@@ -60,7 +60,7 @@ class Predator extends Boid {
     strokeWeight(1);
     stroke(255, 0, 0);
     PVector mouthPosition = new PVector(this.position.x + cos(angle - PI/2)*35, this.position.y+sin(angle - PI/2)*35);
-    circle(mouthPosition.x, mouthPosition.y, 50);
+    circle(mouthPosition.x, mouthPosition.y, 25);
     for (Point point : points) {
       if (point.obj instanceof Boid) {
         float d = PVector.dist(mouthPosition, ((Boid)point.obj).position);
@@ -77,13 +77,6 @@ class Predator extends Boid {
 
     visionField.updatePosition(position.x + cos(angle-PI/2)*25, position.y + sin(angle-PI/2)*25); //shifted to be close to the eyes
     visionField.setAngle(angle);
-
-    if (this.visionField.containsPoint(mouseX, mouseY)) {
-      fill(0, 255, 0);
-    } else {
-      fill(255, 0, 0);
-    }
-    circle(mouseX, mouseY, 10);
   }
 
   void display() {

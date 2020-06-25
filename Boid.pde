@@ -19,6 +19,13 @@ class Boid {
     animation.setScale(scale);
   }
 
+  Boid(PVector position) {
+    this.position = position;
+    setupShape(0.5);
+    animation = new Animation("fish_", 4);
+    animation.setScale(scale);
+  }
+
   void setupShape(float scale) {
     shape = createShape();
     shape.beginShape();
@@ -145,7 +152,7 @@ class Boid {
     }
     if (count > 0) {
       sum.div(count);
-      return seek(sum, 3).mult(-1);
+      return seek(sum, 10).mult(-1);
     } else {
       return new PVector();
     }
@@ -233,7 +240,7 @@ class Boid {
     applyForce(alignmentVector(points).mult(alignmentScaleSlider.getValue()));
     applyForce(cohesionVector(points).mult(cohesionScaleSlider.getValue()));
 
-    //applyForce(avoidPredators(predators).mult(fearSlider.getValue()));
+    applyForce(avoidPredators(predators).mult(3));
 
     //Mouse behavior
     int behavior = mouseBehaviorRadioButton.getArrayValue()[0] == 0 ? 1 : -1;
@@ -279,17 +286,28 @@ class Boid {
         shape.setStroke(boidsStrokeColorPicker.getColorValue());
         shape.setStrokeWeight(boidsStrokeWeightSlider.getValue());
       } else {
+        shape.setStroke(boidsStrokeColorPicker.getColorValue());
+        shape.setStrokeWeight(boidsStrokeWeightSlider.getValue());
         shape.setFill(color(230, 20, 20, 255));
       }
       shape(shape, 0, 0);
     } else if (boidApparenceRadioButton.getArrayValue()[1] == 1) {//Circle
+    
       fill(boidsFillColorPicker.getColorValue());
       strokeWeight(boidsStrokeWeightSlider.getValue());
       stroke(boidsStrokeColorPicker.getColorValue());
+      
       if (boidsSizeSlider != null)
         circle(0, 0, boidsSizeSlider.getValue()*20);
+        
     } else if (boidApparenceRadioButton.getArrayValue()[2] == 1) {//Fish
       rotate(angle);
+      if (!this.highlighted) {
+        noTint();
+        //tint(255, 255, 255);
+      } else {
+        tint(255, 220, 220);
+      }
       //tint(c);
       //tint(color(150,50,60));
       animation.display(0, 0);

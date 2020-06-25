@@ -10,7 +10,7 @@ void setup() {
   size(1000, 800, P2D);
   //fullScreen(P2D);
   setupUI();
-  flock = new Flock(100);
+  flock = new Flock(1500);
   walls.add(currentWall);
   predators.add(new Predator(new PVector(width/2, height/2)));
 }
@@ -23,19 +23,28 @@ void keyPressed() {
 
 boolean firstClick = false;
 void mousePressed() {
-  if (mouseActionCheckBox.getArrayValue()[1] == 1) {
-    if (mousePressed) {
-      if (firstClick == false) {
-        firstClick = true;
-      } else if (!currentWall.finished) {
+
+  if (firstClick == false) {
+    firstClick = true;
+  } else {
+    if (mouseActionCheckBox.getArrayValue()[1] == 1) {//Create wall
+      if (!currentWall.finished) {
         if (currentWall.addPoint(new PVector(mouseX, mouseY))) {
           currentWall = new Wall();
           walls.add(currentWall);
         }
       }
     }
+    if (mouseActionCheckBox.getArrayValue()[2] == 1) {
+      flock.boids.add(new Boid(new PVector(mouseX, mouseY)));
+    }
+
+    if (mouseActionCheckBox.getArrayValue()[3] == 1) {
+      predators.add(new Predator(new PVector(mouseX, mouseY)));
+    }
   }
 }
+
 
 
 void draw() {

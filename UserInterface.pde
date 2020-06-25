@@ -73,11 +73,13 @@ void setupBarUI() {
     .setColorBackground(color(150))
     .setColorLabel(color(255))
     .setSize(10, 10)
-    .setItemsPerRow(3)
-    .setSpacingColumn(60)
+    .setItemsPerRow(4)
+    .setSpacingColumn(35)
     .setSpacingRow(20)
-    .addItem("Seek mouse", 0)
-    .addItem("Create wall", 1)
+    .addItem("Seek", 0)
+    .addItem("+ wall", 1)
+    .addItem("+ boid", 2)
+    .addItem("+ Prdtr", 3)
     .activate(0)
     ;
 
